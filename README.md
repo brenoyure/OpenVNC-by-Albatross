@@ -27,7 +27,7 @@ A versão inicial do aplicativo resolve os seguintes problemas:
 
 * Exemplo: Ao abrir o instalador de algum programa, o acesso cai, precisamos pedir para que o usuário aceite novamente o acesso remoto
 
-#### >Repetição desnecessária
+#### Repetição desnecessária
 <p>Precisamos digitar as credenciais para voltarmos o acesso à máquina do usuário, depois temos que fornecer as credenciais novamente para instalação do software, por exemplo, em seguida, o acesso remoto cai novamente</p>
 
 <p>A queda do acesso, se dá ao fato das versões antigas do VNC Server não serem compatíveis totalmente com o Windows 10++</p>
