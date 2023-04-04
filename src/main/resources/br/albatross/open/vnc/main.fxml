@@ -25,7 +25,7 @@
                 </font>
               </Label>
                   <Button accessibleRole="CHECK_BOX" layoutX="390.0" layoutY="288.0" mnemonicParsing="false" onAction="#connectBtnClicked" prefHeight="47.0" prefWidth="126.0" text="Conectar" />
-                  <TextField fx:id="host" alignment="CENTER" layoutX="360.0" layoutY="174.0" onMouseDragOver="#mouseOverHostTextField" prefHeight="58.0" prefWidth="187.0" promptText="IP ou BM">
+                  <TextField fx:id="host" alignment="CENTER" layoutX="360.0" layoutY="174.0" prefHeight="58.0" prefWidth="187.0" promptText="IP ou BM" style="-fx-background-radius: 50px;">
                      <font>
                         <Font name="Yu Gothic Medium" size="16.0" />
                      </font>
@@ -35,63 +35,60 @@
                         <Font size="13.0" />
                      </font>
                      <toggleGroup>
-                        <ToggleGroup fx:id="andares_radio_button" />
+                        <ToggleGroup fx:id="host_radio_button" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="167.0" mnemonicParsing="false" onAction="#primeiroAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="1º Andar" toggleGroup="$andares_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="167.0" mnemonicParsing="false" onAction="#primeiroAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="1º Andar" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="198.0" mnemonicParsing="false" onAction="#quartoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="4º Andar" toggleGroup="$andares_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="198.0" mnemonicParsing="false" onAction="#quartoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="4º Andar" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="232.0" mnemonicParsing="false" onAction="#quintoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="5º Andar" toggleGroup="$andares_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="232.0" mnemonicParsing="false" onAction="#quintoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="5º Andar" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="268.0" mnemonicParsing="false" onAction="#sextoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="6º Andar" toggleGroup="$andares_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="268.0" mnemonicParsing="false" onAction="#sextoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="6º Andar" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="306.0" mnemonicParsing="false" onAction="#setimoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="7º Andar" toggleGroup="$andares_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="306.0" mnemonicParsing="false" onAction="#setimoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="7º Andar" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="340.0" mnemonicParsing="false" onAction="#oitavoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="8º Andar" toggleGroup="$andares_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="340.0" mnemonicParsing="false" onAction="#oitavoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="8º Andar" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="375.0" mnemonicParsing="false" onAction="#nonoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="9º Andar" toggleGroup="$andares_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="375.0" mnemonicParsing="false" onAction="#nonoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="9º Andar" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="228.0" layoutY="201.0" mnemonicParsing="false" onAction="#maquinaDellRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="Dell">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="maquinas_radio_button" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="228.0" layoutY="228.0" mnemonicParsing="false" onAction="#maquinaSpaceBRRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="SpaceBR" toggleGroup="$maquinas_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="228.0" layoutY="201.0" mnemonicParsing="false" onAction="#maquinaDellRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="Dell" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="228.0" layoutY="256.0" mnemonicParsing="false" onAction="#maquinaHPRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="HP" toggleGroup="$maquinas_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="228.0" layoutY="228.0" mnemonicParsing="false" onAction="#maquinaSpaceBRRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="SpaceBR" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="228.0" layoutY="284.0" mnemonicParsing="false" onAction="#maquinaDatenRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="DATEN" toggleGroup="$maquinas_radio_button">
+                  <RadioButton contentDisplay="CENTER" layoutX="228.0" layoutY="256.0" mnemonicParsing="false" onAction="#maquinaHPRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="HP" toggleGroup="$host_radio_button">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton contentDisplay="CENTER" layoutX="228.0" layoutY="284.0" mnemonicParsing="false" onAction="#maquinaDatenRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="DATEN" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>

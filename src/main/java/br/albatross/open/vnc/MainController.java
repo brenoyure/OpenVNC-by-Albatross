@@ -16,19 +16,12 @@ public class MainController {
 
     @FXML
     private TextField host;
+
+    private final String userName   = System.getProperty("user.name");
+    private final String password   = System.getenv("domain_password");
+    private final String vncHomeDir = System.getenv("VNC_HOME");
     @FXML
-    private ToggleGroup andares_radio_button;
-    @FXML
-    private ToggleGroup maquinas_radio_button;
-    
-    
-    private final String userName = System.getProperty("user.name");
-    private final String password = System.getenv("domain_password");
-    private final String vncHomeDir = "C:\\Program Files\\uvnc_baba\\UltraVNC";
-    
-    
-    
-    
+    private ToggleGroup host_radio_button;
 
     private void switchToSecondary() throws IOException {
         App.setRoot("main");
@@ -36,18 +29,18 @@ public class MainController {
 
     @FXML
     private void connectBtnClicked(ActionEvent event) {
-        
+
         ConnectionBuilder builder = new VncConnectionBuilder(vncHomeDir);
-        Connection connection = builder.createConnection(vncHomeDir, userName, password);
+        Connection connection = builder.createConnection(host.getText(), userName, password);
         ConnectionStarter starter = new VNCConnectionStarter(builder);
-        
+
         try {
             starter.startConnection(connection);
-            
+
         } catch (InterruptedException | IOException ex) {
             ex.printStackTrace();
         }
-        
+
     }
 
     @FXML
@@ -108,10 +101,6 @@ public class MainController {
     @FXML
     private void maquinaDatenRadioBtnClicked(ActionEvent event) {
         host.setText("W204");
-    }
-
-    @FXML
-    private void mouseOverHostTextField(MouseDragEvent event) {
     }
 
 }

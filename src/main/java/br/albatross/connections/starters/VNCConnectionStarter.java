@@ -18,7 +18,6 @@ public class VNCConnectionStarter implements ConnectionStarter {
     @Override
     public void startConnection(Connection vncConnection) throws IOException, InterruptedException {
         String connectionString = builder.getConnectionString(vncConnection);
-        System.out.println(connectionString);
         getRuntime().exec(connectionString);
     }
 
