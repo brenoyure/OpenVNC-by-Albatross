@@ -5,13 +5,15 @@ import br.albatross.connections.builders.ConnectionBuilder;
 import br.albatross.connections.builders.VncConnectionBuilder;
 import br.albatross.connections.starters.ConnectionStarter;
 import br.albatross.connections.starters.VNCConnectionStarter;
+import static java.awt.Desktop.getDesktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class MainController {
 
@@ -28,6 +30,12 @@ public class MainController {
      */
     @FXML
     private ToggleGroup host_radio_button;
+
+    /**
+     * Represents the github hyperlink in the left conner of the GUI.
+     */
+    @FXML
+    private Hyperlink githubLink;
 
     /**
      * Represents connection user name, that is recovered by the "user.name"
@@ -93,65 +101,103 @@ public class MainController {
 //            host.setDisable(false);
 //        }
 //    }
+    /**
+     * Redirects the user to the Github Project Creator's page.
+     *
+     * @param mouseClick when the link gets clicked by the user.
+     * @throws IOException if URI is wrong or inacessible.
+     * @throws URISyntaxException if URI os wrong.
+     */
+    @FXML
+    private void githubLinkClicked(ActionEvent mouseClick) throws IOException, URISyntaxException {
+        getDesktop().browse(new URI("https://github.com/brenoyure"));
+        githubLink.setVisited(false);
+
+    }
+
     @FXML
     private void andarTerroRadioBtnClicked(ActionEvent event) {
         host.setText("10.40.10.");
+        host.requestFocus();
+        host.forward();
 
     }
 
     @FXML
     private void primeiroAndarRadioBtnClicked(ActionEvent event) {
         host.setText("10.40.1.");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void quartoAndarRadioBtnClicked(ActionEvent event) {
         host.setText("10.40.4.");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void quintoAndarRadioBtnClicked(ActionEvent event) {
         host.setText("10.40.5.");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void sextoAndarRadioBtnClicked(ActionEvent event) {
         host.setText("10.40.6.");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void setimoAndarRadioBtnClicked(ActionEvent event) {
         host.setText("10.40.7.");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void oitavoAndarRadioBtnClicked(ActionEvent event) {
         host.setText("10.40.8.");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void nonoAndarRadioBtnClicked(ActionEvent event) {
         host.setText("10.40.9.");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void maquinaDellRadioBtnClicked(ActionEvent event) {
         host.setText("W142");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void maquinaSpaceBRRadioBtnClicked(ActionEvent event) {
         host.setText("W145");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void maquinaHPRadioBtnClicked(ActionEvent event) {
         host.setText("W200");
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML
     private void maquinaDatenRadioBtnClicked(ActionEvent event) {
         host.setText("W204");
+        host.requestFocus();
+        host.forward();
     }
 
 }

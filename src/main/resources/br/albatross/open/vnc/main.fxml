@@ -99,7 +99,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <Hyperlink layoutX="173.0" layoutY="406.0" text="github.com/brenoyure" textAlignment="CENTER">
+                  <Hyperlink fx:id="githubLink" layoutX="173.0" layoutY="406.0" onAction="#githubLinkClicked" text="github.com/brenoyure" textAlignment="CENTER">
                      <font>
                         <Font size="14.0" />
                      </font>
