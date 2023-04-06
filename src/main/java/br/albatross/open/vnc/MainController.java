@@ -112,6 +112,8 @@ public class MainController {
     private void githubLinkClicked(ActionEvent mouseClick) throws IOException, URISyntaxException {
         getDesktop().browse(new URI("https://github.com/brenoyure"));
         githubLink.setVisited(false);
+        host.requestFocus();
+        host.forward();
 
     }
 
