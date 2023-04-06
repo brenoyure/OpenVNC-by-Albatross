@@ -11,9 +11,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyEvent;
 
 public class MainController {
 
@@ -30,6 +32,12 @@ public class MainController {
      */
     @FXML
     private ToggleGroup host_radio_button;
+
+    /**
+     * Represents connect button in the GUI's.
+     */
+    @FXML
+    private Button connectBtn;
 
     /**
      * Represents the github hyperlink in the left conner of the GUI.
@@ -51,7 +59,8 @@ public class MainController {
     private final String vncHomeDir = System.getenv("VNC_HOME");
 
     /**
-     * Triggers the startConnection() when "Connect" button is clicked.
+     * Triggers the startConnection() when "Connect" button is clicked or ENTER
+     * key is pressed.
      *
      * @param btnClicked
      */
@@ -115,6 +124,21 @@ public class MainController {
         host.requestFocus();
         host.forward();
 
+    }
+
+    /**
+     * If host/ip text field is empty, this method will disable the Connect
+     * Button in the GUI.
+     *
+     * @param keyType keys being typed.
+     */
+    @FXML
+    private void hostBeingTyped(KeyEvent keyType) {
+        if (host.getText().isEmpty() || host.getText().trim() == "") {
+            connectBtn.setDisable(true);
+        } else {
+            connectBtn.setDisable(false);
+        }
     }
 
     @FXML
