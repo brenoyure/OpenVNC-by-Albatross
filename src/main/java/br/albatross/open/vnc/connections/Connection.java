@@ -1,4 +1,4 @@
-package br.albatross.connections;
+package br.albatross.open.vnc.connections;
 
 public interface Connection {
     

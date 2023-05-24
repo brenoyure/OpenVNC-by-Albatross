@@ -1,9 +1,9 @@
-package br.albatross.connections.builders;
+package br.albatross.open.vnc.connections.builders;
 
 import static java.lang.String.format;
 
-import br.albatross.connections.Connection;
-import br.albatross.connections.VncConnection;
+import br.albatross.open.vnc.connections.Connection;
+import br.albatross.open.vnc.connections.VncConnection;
 
 public class VncConnectionBuilder implements ConnectionBuilder {
 

@@ -1,10 +1,10 @@
 package br.albatross.open.vnc;
 
-import br.albatross.connections.Connection;
-import br.albatross.connections.builders.ConnectionBuilder;
-import br.albatross.connections.builders.VncConnectionBuilder;
-import br.albatross.connections.starters.ConnectionStarter;
-import br.albatross.connections.starters.VNCConnectionStarter;
+import br.albatross.open.vnc.connections.Connection;
+import br.albatross.open.vnc.connections.builders.ConnectionBuilder;
+import br.albatross.open.vnc.connections.builders.VncConnectionBuilder;
+import br.albatross.open.vnc.connections.starters.ConnectionStarter;
+import br.albatross.open.vnc.connections.starters.VNCConnectionStarter;
 import static java.awt.Desktop.getDesktop;
 import java.io.IOException;
 import java.net.URI;
@@ -79,12 +79,7 @@ public class MainController {
         Connection connection = builder.createConnection(host.getText(), userName, password);
         ConnectionStarter starter = new VNCConnectionStarter(builder);
 
-        try {
-            starter.startConnection(connection);
-
-        } catch (InterruptedException | IOException ex) {
-            ex.printStackTrace();
-        }
+        starter.startConnection(connection);
 
     }
 

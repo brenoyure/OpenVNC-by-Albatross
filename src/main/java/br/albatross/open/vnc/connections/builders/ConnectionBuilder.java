@@ -1,6 +1,6 @@
-package br.albatross.connections.builders;
+package br.albatross.open.vnc.connections.builders;
 
-import br.albatross.connections.Connection;
+import br.albatross.open.vnc.connections.Connection;
 
 public interface ConnectionBuilder {
 
