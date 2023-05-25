@@ -1,14 +1,19 @@
 package br.albatross.open.vnc;
 
 import br.albatross.open.vnc.connections.Connection;
-import br.albatross.open.vnc.connections.builders.ConnectionBuilder;
-import br.albatross.open.vnc.connections.builders.VncConnectionBuilder;
-import br.albatross.open.vnc.connections.starters.ConnectionStarter;
-import br.albatross.open.vnc.connections.starters.VNCConnectionStarter;
+import br.albatross.open.vnc.builders.ConnectionBuilder;
+import br.albatross.open.vnc.builders.SsVncConnectionBuilder;
+import br.albatross.open.vnc.builders.VncConnectionBuilder;
+import br.albatross.open.vnc.starters.ConnectionStarter;
+import br.albatross.open.vnc.starters.VNCConnectionStarter;
+
 import static java.awt.Desktop.getDesktop;
+
 import java.io.IOException;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -49,15 +54,13 @@ public class MainController {
      * Represents connection user name, that is recovered by the "user.name"
      * System Property. Basically, the current logged user.
      */
-    private final String userName = System.getProperty("user.name");
+    private final String userName = System.getenv("VNC_USER");
     private final String password = System.getenv("domain_password");
 
-    /**
-     * Represents the Envoiroment Variable VNC_HOME, where the software
-     * ultraVNC® is installed.
-     */
-    private final String vncHomeDir = System.getenv("VNC_HOME");
+    private static final String OS_NAME = System.getProperty("os.name");
 
+    private ConnectionBuilder builder;
+    
     /**
      * Triggers the startConnection() when "Connect" button is clicked or ENTER
      * key is pressed.
@@ -71,11 +74,16 @@ public class MainController {
 
     /**
      * Triggers the Builder and Starter components to build and start a VNC
-     * Connection (on Windows).
+     * Connection.
+     * 
+     * If the target platform is Windows® VncConnection Builder will be created.
+     * IF it's a Linux, a SSVNC will be created.
+     * 
      */
     private void startConnection() {
 
-        ConnectionBuilder builder = new VncConnectionBuilder(vncHomeDir);
+        builder = (OS_NAME.contains("Windows")) ? builder = new VncConnectionBuilder() : new SsVncConnectionBuilder();
+
         Connection connection = builder.createConnection(host.getText(), userName, password);
         ConnectionStarter starter = new VNCConnectionStarter(builder);
 

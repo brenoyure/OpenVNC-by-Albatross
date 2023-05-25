@@ -1,4 +1,4 @@
-package br.albatross.open.vnc.connections.builders;
+package br.albatross.open.vnc.builders;
 
 import br.albatross.open.vnc.connections.Connection;
 

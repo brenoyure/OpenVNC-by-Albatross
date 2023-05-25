@@ -1,4 +1,4 @@
-package br.albatross.open.vnc.connections.starters;
+package br.albatross.open.vnc.starters;
 
 import java.io.IOException;
 

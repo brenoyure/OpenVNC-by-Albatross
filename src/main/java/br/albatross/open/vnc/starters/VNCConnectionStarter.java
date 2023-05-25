@@ -1,13 +1,12 @@
-package br.albatross.open.vnc.connections.starters;
+package br.albatross.open.vnc.starters;
 
 import static java.lang.Runtime.getRuntime;
 
 import java.io.IOException;
 
 import br.albatross.open.vnc.connections.Connection;
-import br.albatross.open.vnc.connections.builders.ConnectionBuilder;
-import br.albatross.open.vnc.connections.handlers.exception.VncFolderNotFoundExceptionHandler;
-import br.albatross.open.vnc.connections.handlers.exception.VncInvalidPasswordExceptionHandler;
+import br.albatross.open.vnc.builders.ConnectionBuilder;
+import static br.albatross.open.vnc.handlers.exception.VncNotFoundExceptionHandler.showNotFoundMessageDialog;
 
 public class VNCConnectionStarter implements ConnectionStarter {
 
@@ -23,27 +22,18 @@ public class VNCConnectionStarter implements ConnectionStarter {
      * same instance.
      *
      * @param vncConnection
-     * @throws InterruptedException
      */
     @Override
     public void startConnection(Connection vncConnection) {
         String connectionString = builder.getConnectionString(vncConnection);
         
         try {
-
-            if (vncConnection.getPassword() == null || vncConnection.getPassword().isEmpty()) {
-                VncInvalidPasswordExceptionHandler.showInvalidPasswordMessageDialog();
-                return;
-            }
-
             getRuntime().exec(connectionString).waitFor();           
             
         } catch (IOException e) {
-            VncFolderNotFoundExceptionHandler.showFolderNotFoundMessageDialog();
+            showNotFoundMessageDialog();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        } catch (InterruptedException e) { /*Nothing to catch*/ }
         
     }
 

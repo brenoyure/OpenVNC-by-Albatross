@@ -1,40 +1,37 @@
-package br.albatross.open.vnc.connections.builders;
+package br.albatross.open.vnc.builders;
 
 import static java.lang.String.format;
 
 import br.albatross.open.vnc.connections.Connection;
-import br.albatross.open.vnc.connections.VncConnection;
 
-public class VncConnectionBuilder implements ConnectionBuilder {
+/**
+ * Responsible for building a new UltraVNC® Viewer Connection with 
+ * it's connection string in the Windows® OS.
+ * 
+ * @author breno.brito
+ */
+public class VncConnectionBuilder extends AbstractVncConnectionBuilder {
 
     /**
-     * Represents the VNC installation folder.
+     * Represents the Envoiroment Variable VNC_HOME, where the software
+     * .exe of the UltraVNC® Viewer is located.
      */
-    private final String vncHomeDir;
+    private final String vncHomeDir = System.getenv("VNC_HOME");
 
     /**
-     * If for some reson the VNC Connection drops, it will automatically try to
+     * If for some reson the UltraVNC® Connection drops, it will automatically try to
      * reconnect to the user machine. This int value represents how much seconds
      * the Viewer must wait before re-sending the request to the user.
      */
     private static final int AUTO_RECONNECT_COUNT_SECONDS = 1;
 
     /**
-     * If for some reson the VNC Connection drops, it will automatically try to
+     * If for some reson the UltraVNC® Connection drops, it will automatically try to
      * reconnect to the user machine. This int value represents how much retries
      * the Viewer will re-send the request to the user, before VNC closes the
      * connection.
      */
     private static final int AUTO_RECONNECT_COUNT = 50;
-
-    public VncConnectionBuilder(String vncHomeDir) {
-        this.vncHomeDir = vncHomeDir;
-    }
-
-    @Override
-    public Connection createConnection(String host, String userName, String password) {
-        return new VncConnection(host, userName, password);
-    }
 
     @Override
     public String getConnectionString(Connection connection) {

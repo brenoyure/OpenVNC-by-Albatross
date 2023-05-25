@@ -1,6 +1,6 @@
-package br.albatross.open.vnc.connections.handlers.exception;
+package br.albatross.open.vnc.handlers.exception;
 
-import br.albatross.open.vnc.connections.handlers.messages.MensagemDeErro;
+import br.albatross.open.vnc.handlers.messages.MensagemDeErro;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
