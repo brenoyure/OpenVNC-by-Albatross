@@ -122,7 +122,16 @@ public class MainController {
      */
     @FXML
     private void githubLinkClicked(ActionEvent mouseClick) throws IOException, URISyntaxException {
-        getDesktop().browse(new URI("https://github.com/brenoyure"));
+        
+        if (OS_NAME.contains("Linux")) {
+            Runtime.getRuntime().exec("browse https://github.com/brenoyure");
+        }
+
+        else {
+            getDesktop().browse(new URI("https://github.com/brenoyure"));
+
+        }
+
         githubLink.setVisited(false);
         host.requestFocus();
         host.forward();
@@ -137,7 +146,7 @@ public class MainController {
      */
     @FXML
     private void hostBeingTyped(KeyEvent keyType) {
-        if (host.getText().isEmpty() || host.getText().trim() == "") {
+        if (host.getText().isBlank()) {
             connectBtn.setDisable(true);
         } else {
             connectBtn.setDisable(false);
@@ -149,6 +158,7 @@ public class MainController {
         host.setText("10.40.10.");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
 
     }
 
@@ -157,6 +167,7 @@ public class MainController {
         host.setText("10.40.1.");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -164,6 +175,7 @@ public class MainController {
         host.setText("10.40.4.");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -171,6 +183,7 @@ public class MainController {
         host.setText("10.40.5.");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -178,6 +191,7 @@ public class MainController {
         host.setText("10.40.6.");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -185,6 +199,7 @@ public class MainController {
         host.setText("10.40.7.");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -192,6 +207,7 @@ public class MainController {
         host.setText("10.40.8.");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -199,6 +215,7 @@ public class MainController {
         host.setText("10.40.9.");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -206,6 +223,7 @@ public class MainController {
         host.setText("W142");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -213,6 +231,7 @@ public class MainController {
         host.setText("W145");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -220,6 +239,7 @@ public class MainController {
         host.setText("W200");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
     @FXML
@@ -227,6 +247,7 @@ public class MainController {
         host.setText("W204");
         host.requestFocus();
         host.forward();
+        connectBtn.setDisable(false);
     }
 
 }
