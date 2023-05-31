@@ -1,4 +1,4 @@
-package br.com.albatross.demo;
+package br.albatross.demo;
 
 import java.io.IOException;
 import java.util.Map;

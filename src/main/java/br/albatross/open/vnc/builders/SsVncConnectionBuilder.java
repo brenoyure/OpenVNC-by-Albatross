@@ -14,6 +14,11 @@ public class SsVncConnectionBuilder extends AbstractVncConnectionBuilder {
 
     @Override
     public String getConnectionString(Connection connection) {
+    	
+    	if (connection.getUserName() == null || connection.getUserName().isBlank()) {
+    		return format("ssvncviewer %s:5900", connection.getHost());
+    	}
+
         return format("ssvncviewer -mslogon %s %s:5900", connection.getUserName(), connection.getHost());
     }
 
