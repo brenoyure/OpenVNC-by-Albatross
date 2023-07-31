@@ -23,7 +23,7 @@ public class VncConnectionBuilder extends AbstractVncConnectionBuilder {
      * reconnect to the user machine. This int value represents how much seconds
      * the Viewer must wait before re-sending the request to the user.
      */
-    private static final int AUTO_RECONNECT_COUNT_SECONDS = 1;
+    private static final byte AUTO_RECONNECT_COUNT_SECONDS = 1;
 
     /**
      * If for some reson the UltraVNC® Connection drops, it will automatically try to
@@ -31,7 +31,7 @@ public class VncConnectionBuilder extends AbstractVncConnectionBuilder {
      * the Viewer will re-send the request to the user, before VNC closes the
      * connection.
      */
-    private static final int AUTO_RECONNECT_COUNT = 50;
+    private static final byte AUTO_RECONNECT_COUNT = 50;
 
     @Override
     public String getConnectionString(Connection connection) {
