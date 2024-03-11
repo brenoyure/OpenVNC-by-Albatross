@@ -9,8 +9,7 @@ public class WindowsUltraVNCPasswordService implements PasswordService {
 
         try {
 
-            String[] saveCommand = new String[1];
-            saveCommand[0] = String.format("@setx domain_password %s", password);
+            String[] saveCommand = { "setx", "domain_password", password };
             Runtime.getRuntime().exec(saveCommand);
 
         } catch (IOException ex) { throw new RuntimeException(ex); }

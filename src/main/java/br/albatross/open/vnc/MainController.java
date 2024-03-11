@@ -6,6 +6,7 @@ import br.albatross.open.vnc.builders.SsVncConnectionBuilder;
 import br.albatross.open.vnc.builders.VncConnectionBuilder;
 import br.albatross.open.vnc.services.MainService;
 import br.albatross.open.vnc.services.PasswordService;
+import br.albatross.open.vnc.services.WindowsUltraVNCPasswordService;
 import br.albatross.open.vnc.starters.ConnectionStarter;
 import br.albatross.open.vnc.starters.VNCConnectionStarter;
 
@@ -99,27 +100,30 @@ public class MainController {
 
     @FXML
     private void changePasswordLinkClicked(ActionEvent event) {
+
        if (!OS_NAME.contains("Windows")) {
            changePasswordLink.setDisable(true);
            changePasswordLink.setVisited(false);
            JOptionPane.showMessageDialog(null, "Opção de Salvar a senha de acesso ainda não disponível no Linux.", "Opção Não Disponivel", JOptionPane.WARNING_MESSAGE);
            changePasswordLink.setText("Opção Atualmente Indisponível");
-       }
-       
-       else {
-
-           String password = JOptionPane.showInputDialog(null, "Você pode salvar sua senha de acesso, geralmente a senha de domínio, para não precisar informa-la no UltraVNC® sempre que for realizar um acesso remoto.", "Salvar Senha de Acesso");
-
-           if (password.isBlank()) {
-               JOptionPane.showMessageDialog(null, "Senha não pode ficar em branco", "Senha Em Branco", JOptionPane.ERROR_MESSAGE);
-               return;
-           }
-
-           passwordService.savePassword(password);
-
+           return;
        }
 
-       service.refocusTextFieldAfterHyperLinkClickEvent(changePasswordLink, host);
+        String password = JOptionPane.showInputDialog(null, "Você pode salvar sua senha de acesso, geralmente a senha de domínio, \npara não precisar informa-la no UltraVNC® sempre que for realizar um acesso remoto.", "Senha de Acesso", JOptionPane.INFORMATION_MESSAGE);
+
+        if (password == null || password.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Senha não pode ficar em branco", "Senha Em Branco", JOptionPane.ERROR_MESSAGE);
+            service.refocusTextFieldAfterHyperLinkClickEvent(changePasswordLink, host);
+            return;
+        }
+
+        if (passwordService == null) {
+            passwordService = new WindowsUltraVNCPasswordService();
+        }
+
+        passwordService.savePassword(password);
+        JOptionPane.showMessageDialog(null, "Nova Senha Salva com Sucesso", null, JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Reinicie o OpenVNC para que a nova senha entre em vigor", null, JOptionPane.INFORMATION_MESSAGE);
 
     }
 
