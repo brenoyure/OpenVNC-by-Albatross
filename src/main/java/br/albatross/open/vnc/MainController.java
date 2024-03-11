@@ -4,10 +4,13 @@ import br.albatross.open.vnc.connections.Connection;
 import br.albatross.open.vnc.builders.ConnectionBuilder;
 import br.albatross.open.vnc.builders.SsVncConnectionBuilder;
 import br.albatross.open.vnc.builders.VncConnectionBuilder;
+import br.albatross.open.vnc.services.MainService;
+import br.albatross.open.vnc.services.PasswordService;
 import br.albatross.open.vnc.starters.ConnectionStarter;
 import br.albatross.open.vnc.starters.VNCConnectionStarter;
 
 import static java.awt.Desktop.getDesktop;
+import java.awt.TrayIcon;
 
 import java.io.IOException;
 
@@ -21,6 +24,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
+import javax.swing.JOptionPane;
 
 public class MainController {
 
@@ -60,17 +64,21 @@ public class MainController {
     private static final String OS_NAME = System.getProperty("os.name");
 
     private ConnectionBuilder builder;
-    
-    /**
-     * Triggers the startConnection() when "Connect" button is clicked or ENTER
-     * key is pressed.
-     *
-     * @param btnClicked
-     */
+
+    private ConnectionStarter connectionStarter;
+
+    private MainService service;
+
+    private PasswordService passwordService;
+
     @FXML
-    private void connectBtnClicked(ActionEvent btnClicked) {
-        startConnection();
-    }
+    private Hyperlink changePasswordLink;
+
+    public MainController() {
+        builder = (OS_NAME.contains("Windows")) ? builder = new VncConnectionBuilder() : new SsVncConnectionBuilder();
+        connectionStarter = new VNCConnectionStarter(builder);
+        service = new MainService();
+    } 
 
     /**
      * Triggers the Builder and Starter components to build and start a VNC
@@ -78,41 +86,43 @@ public class MainController {
      * 
      * If the target platform is Windows® VncConnection Builder will be created.
      * IF it's a Linux, a SSVNC will be created.
-     * 
+     *
+     * @param btnClicked
      */
-    private void startConnection() {
-
-        builder = (OS_NAME.contains("Windows")) ? builder = new VncConnectionBuilder() : new SsVncConnectionBuilder();
+    @FXML
+    private void connectBtnClicked(ActionEvent btnClicked) {
 
         Connection connection = builder.createConnection(host.getText(), userName, password);
-        ConnectionStarter starter = new VNCConnectionStarter(builder);
-
-        starter.startConnection(connection);
+        connectionStarter.startConnection(connection);
 
     }
 
-    /**
-     * Triggers the startConnection() when ENTER key is pressed.
-     *
-     * @param keyPressed
-     */
-//    private void hostConnectWhenEnterKeyPressed(KeyEvent keyPressed) {
-//        if (keyPressed.getCode().equals(KeyCode.ENTER)) {
-//            startConnection();
-//        }
-//
-//    }
-    /**
-     * Re enables the Connect button, in the GUI, if the host text field is not
-     * empty.
-     *
-     * @param keyType
-     */
-//    private void enableConnectBtn(KeyEvent keyType) {
-//        if (host.getText().length() > 0) {
-//            host.setDisable(false);
-//        }
-//    }
+    @FXML
+    private void changePasswordLinkClicked(ActionEvent event) {
+       if (!OS_NAME.contains("Windows")) {
+           changePasswordLink.setDisable(true);
+           changePasswordLink.setVisited(false);
+           JOptionPane.showMessageDialog(null, "Opção de Salvar a senha de acesso ainda não disponível no Linux.", "Opção Não Disponivel", JOptionPane.WARNING_MESSAGE);
+           changePasswordLink.setText("Opção Atualmente Indisponível");
+       }
+       
+       else {
+
+           String password = JOptionPane.showInputDialog(null, "Você pode salvar sua senha de acesso, geralmente a senha de domínio, para não precisar informa-la no UltraVNC® sempre que for realizar um acesso remoto.", "Salvar Senha de Acesso");
+
+           if (password.isBlank()) {
+               JOptionPane.showMessageDialog(null, "Senha não pode ficar em branco", "Senha Em Branco", JOptionPane.ERROR_MESSAGE);
+               return;
+           }
+
+           passwordService.savePassword(password);
+
+       }
+
+       service.refocusTextFieldAfterHyperLinkClickEvent(changePasswordLink, host);
+
+    }
+
     /**
      * Redirects the user to the Github Project Creator's page.
      *
@@ -122,7 +132,7 @@ public class MainController {
      */
     @FXML
     private void githubLinkClicked(ActionEvent mouseClick) throws IOException, URISyntaxException {
-        
+
         if (OS_NAME.contains("Linux")) {
             Runtime.getRuntime().exec("browse https://github.com/brenoyure");
         }
@@ -132,9 +142,7 @@ public class MainController {
 
         }
 
-        githubLink.setVisited(false);
-        host.requestFocus();
-        host.forward();
+        service.refocusTextFieldAfterHyperLinkClickEvent(githubLink, host);
 
     }
 
@@ -146,108 +154,100 @@ public class MainController {
      */
     @FXML
     private void hostBeingTyped(KeyEvent keyType) {
+
         if (host.getText().isBlank()) {
             connectBtn.setDisable(true);
-        } else {
-            connectBtn.setDisable(false);
+            return;
+
         }
+
+        connectBtn.setDisable(false);
+
+    }
+
+    private void handleHostRadioButtonClick(ActionEvent event, String hostnameOrIp) {
+        service.handleHostRadioButtonClick(host, event, hostnameOrIp);
+        connectBtn.setDisable(true);
     }
 
     @FXML
     private void andarTerroRadioBtnClicked(ActionEvent event) {
-        host.setText("10.40.10.");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
-
+        handleHostRadioButtonClick(event, "10.40.10.");
     }
 
     @FXML
     private void primeiroAndarRadioBtnClicked(ActionEvent event) {
-        host.setText("10.40.1.");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "10.40.1.");
+    }
+
+    @FXML
+    private void segundoAndarRadioBtnClicked(ActionEvent event) {
+        handleHostRadioButtonClick(event, "10.40.2.");
+    }
+
+    @FXML
+    private void terceiroAndarRadioBtnClicked(ActionEvent event) {
+        handleHostRadioButtonClick(event, "10.40.3.");
     }
 
     @FXML
     private void quartoAndarRadioBtnClicked(ActionEvent event) {
-        host.setText("10.40.4.");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "10.40.4.");
     }
 
     @FXML
     private void quintoAndarRadioBtnClicked(ActionEvent event) {
-        host.setText("10.40.5.");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "10.40.5.");
     }
 
     @FXML
     private void sextoAndarRadioBtnClicked(ActionEvent event) {
-        host.setText("10.40.6.");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "10.40.6.");
     }
 
     @FXML
     private void setimoAndarRadioBtnClicked(ActionEvent event) {
-        host.setText("10.40.7.");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "10.40.7.");
     }
 
     @FXML
     private void oitavoAndarRadioBtnClicked(ActionEvent event) {
-        host.setText("10.40.8.");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "10.40.8.");
     }
 
     @FXML
     private void nonoAndarRadioBtnClicked(ActionEvent event) {
-        host.setText("10.40.9.");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "10.40.9.");
     }
 
     @FXML
     private void maquinaDellRadioBtnClicked(ActionEvent event) {
-        host.setText("W142");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "W142");
     }
 
     @FXML
     private void maquinaSpaceBRRadioBtnClicked(ActionEvent event) {
-        host.setText("W145");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "W145");
     }
 
     @FXML
     private void maquinaHPRadioBtnClicked(ActionEvent event) {
-        host.setText("W200");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "W200");
     }
 
     @FXML
     private void maquinaDatenRadioBtnClicked(ActionEvent event) {
-        host.setText("W204");
-        host.requestFocus();
-        host.forward();
-        connectBtn.setDisable(false);
+        handleHostRadioButtonClick(event, "W204");
+    }
+
+    @FXML
+    private void casaAmarelaTransporteRadioBtnClicked(ActionEvent event) {
+        handleHostRadioButtonClick(event, "192.168.30.");
+    }
+
+    @FXML
+    private void suporteRadioBtnClicked(ActionEvent event) {
+        handleHostRadioButtonClick(event, "10.40.50.");
     }
 
 }

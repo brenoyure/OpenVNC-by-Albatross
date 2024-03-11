@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -19,8 +21,10 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("main"));
         stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("OpenVNC by Albatross");
         stage.show();
-    }
+   }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));

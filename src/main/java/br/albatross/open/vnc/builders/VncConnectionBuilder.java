@@ -16,7 +16,7 @@ public class VncConnectionBuilder extends AbstractVncConnectionBuilder {
      * Represents the Envoiroment Variable VNC_HOME, where the software
      * .exe of the UltraVNC® Viewer is located.
      */
-    private final String vncHomeDir = System.getenv("VNC_HOME");
+    private static final String VNC_HOME_DIR = System.getenv("VNC_HOME");
 
     /**
      * If for some reson the UltraVNC® Connection drops, it will automatically try to
@@ -33,10 +33,34 @@ public class VncConnectionBuilder extends AbstractVncConnectionBuilder {
      */
     private static final byte AUTO_RECONNECT_COUNT = 50;
 
+    private static final String VNC_CONNECTION_TEMPLATE_STRING = format("%s\\vncviewer.exe -connect -autoreconnect %d -reconnectcounter %d ", VNC_HOME_DIR, AUTO_RECONNECT_COUNT_SECONDS, AUTO_RECONNECT_COUNT);
+
     @Override
     public String getConnectionString(Connection connection) {
-        return format("%s\\vncviewer.exe -connect -autoreconnect %d -reconnectcounter %d %s:5900 -user %s -password %s",
-                vncHomeDir, AUTO_RECONNECT_COUNT_SECONDS, AUTO_RECONNECT_COUNT, connection.getHost(), connection.getUserName(), connection.getPassword());
+
+        StringBuilder sb = new StringBuilder(VNC_CONNECTION_TEMPLATE_STRING);
+        sb.append(String.format("%s:5900", connection.getHost()));
+
+        if (connection.getUserName() == null) {
+
+            return sb.toString();
+
+        }
+
+        if (!connection.getUserName().isBlank()) {
+
+            sb.append(format(" -user %s ", connection.getUserName()));
+
+        }
+
+        if (!connection.getPassword().isBlank()) {
+
+            sb.append(format(" -password %s ", connection.getPassword()));
+
+        }
+
+        return sb.toString();
+
     }
 
 }
