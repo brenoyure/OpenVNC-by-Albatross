@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 
-public class MainService {
+public final class MainService {
 
     public void handleHostRadioButtonClick(TextField textField, ActionEvent event, String inputText) {
         textField.setText(inputText);

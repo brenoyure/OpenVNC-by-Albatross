@@ -10,7 +10,7 @@ import br.albatross.open.vnc.connections.Connection;
  * 
  * @author breno.brito
  */
-public class VncConnectionBuilder extends AbstractVncConnectionBuilder {
+public final class VncConnectionBuilder extends AbstractVncConnectionBuilder {
 
     /**
      * Represents the Envoiroment Variable VNC_HOME, where the software

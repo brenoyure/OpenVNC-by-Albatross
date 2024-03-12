@@ -8,7 +8,7 @@ import br.albatross.open.vnc.connections.Connection;
  * 
  * @author breno.brito
  */
-public class SsVncConnectionBuilder extends AbstractVncConnectionBuilder {
+public final class SsVncConnectionBuilder extends AbstractVncConnectionBuilder {
 
     private static final byte QUALITY_LEVEL  =  2;
     private static final byte COMPRESS_LEVEL =  7;

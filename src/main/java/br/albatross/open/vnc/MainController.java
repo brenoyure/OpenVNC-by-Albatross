@@ -2,8 +2,8 @@ package br.albatross.open.vnc;
 
 import br.albatross.open.vnc.connections.Connection;
 import br.albatross.open.vnc.builders.ConnectionBuilder;
-import br.albatross.open.vnc.builders.SsVncConnectionBuilder;
-import br.albatross.open.vnc.builders.VncConnectionBuilder;
+import br.albatross.open.vnc.builders.ConnectionBuilderFactory;
+import br.albatross.open.vnc.configurations.AvailableHosts;
 import br.albatross.open.vnc.services.MainService;
 import br.albatross.open.vnc.services.PasswordService;
 import br.albatross.open.vnc.services.WindowsUltraVNCPasswordService;
@@ -11,7 +11,6 @@ import br.albatross.open.vnc.starters.ConnectionStarter;
 import br.albatross.open.vnc.starters.VNCConnectionStarter;
 
 import static java.awt.Desktop.getDesktop;
-import java.awt.TrayIcon;
 
 import java.io.IOException;
 
@@ -64,9 +63,7 @@ public class MainController {
 
     private static final String OS_NAME = System.getProperty("os.name");
 
-    private ConnectionBuilder builder;
-
-    private ConnectionStarter connectionStarter;
+    private ConnectionBuilder connectionBuilder;
 
     private MainService service;
 
@@ -76,8 +73,7 @@ public class MainController {
     private Hyperlink changePasswordLink;
 
     public MainController() {
-        builder = (OS_NAME.contains("Windows")) ? builder = new VncConnectionBuilder() : new SsVncConnectionBuilder();
-        connectionStarter = new VNCConnectionStarter(builder);
+        connectionBuilder = ConnectionBuilderFactory.newInstance();
         service = new MainService();
     } 
 
@@ -93,8 +89,8 @@ public class MainController {
     @FXML
     private void connectBtnClicked(ActionEvent btnClicked) {
 
-        Connection connection = builder.createConnection(host.getText(), userName, password);
-        connectionStarter.startConnection(connection);
+        Connection connection = connectionBuilder.createConnection(host.getText(), userName, password);
+        connectionBuilder.getConnectionStarter().startConnection(connection);
 
     }
 
@@ -176,82 +172,82 @@ public class MainController {
 
     @FXML
     private void andarTerroRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.10.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_ANDAR_TERREO_TEMPLATE);
     }
 
     @FXML
     private void primeiroAndarRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.1.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_PRIMEIRO_ANDAR_TEMPLATE);
     }
 
     @FXML
     private void segundoAndarRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.2.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_SEGUNDO_ANDAR_TEMPLATE);
     }
 
     @FXML
     private void terceiroAndarRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.3.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_TERCEIRO_ANDAR_TEMPLATE);
     }
 
     @FXML
     private void quartoAndarRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.4.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_QUARTO_ANDAR_TEMPLATE);
     }
 
     @FXML
     private void quintoAndarRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.5.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_QUINTO_ANDAR_TEMPLATE);
     }
 
     @FXML
     private void sextoAndarRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.6.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_SEXTO_ANDAR_TEMPLATE);
     }
 
     @FXML
     private void setimoAndarRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.7.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_SETIMO_ANDAR_TEMPLATE);
     }
 
     @FXML
     private void oitavoAndarRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.8.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_OITAVO_ANDAR_TEMPLATE);
     }
 
     @FXML
     private void nonoAndarRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.9.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_NONO_ANDAR_TEMPLATE);
     }
 
     @FXML
     private void maquinaDellRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "W142");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_MAQUINA_DELL_TEMPLATE);
     }
 
     @FXML
     private void maquinaSpaceBRRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "W145");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_MAQUINA_SPACEBR_TEMPLATE);
     }
 
     @FXML
     private void maquinaHPRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "W200");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_MAQUINA_HP_TEMPLATE);
     }
 
     @FXML
     private void maquinaDatenRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "W204");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_MAQUINA_DATEN_TEMPLATE);
     }
 
     @FXML
     private void casaAmarelaTransporteRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "192.168.30.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_CASA_AMARELA_TRANSPORTE_TEMPLATE);
     }
 
     @FXML
     private void suporteRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, "10.40.50.");
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_REDE_50_TEMPLATE);
     }
 
 }
