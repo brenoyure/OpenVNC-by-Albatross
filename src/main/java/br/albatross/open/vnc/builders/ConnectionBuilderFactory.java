@@ -11,6 +11,8 @@ package br.albatross.open.vnc.builders;
  */
 public final class ConnectionBuilderFactory {
 
+    private static ConnectionBuilder connectionBuilder;
+
     private static final String OS_NAME = System.getProperty("os.name");
 
     /**
@@ -18,7 +20,13 @@ public final class ConnectionBuilderFactory {
      * @return newInstance of <code>ConnectionBuilder</code>
      */
     public static ConnectionBuilder newInstance() {
-        return (OS_NAME.contains("Windows")) ? new VncConnectionBuilder() : new SsVncConnectionBuilder();
+
+        if (connectionBuilder == null ) {
+            connectionBuilder = (OS_NAME.contains("Windows")) ? new VncConnectionBuilder() : new SsVncConnectionBuilder();
+        }
+
+        return connectionBuilder;
+
     }
 
 }

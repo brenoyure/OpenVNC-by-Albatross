@@ -23,13 +23,19 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label alignment="CENTER" layoutX="390.0" layoutY="135.0" prefHeight="32.0" prefWidth="133.0" style="&#10;" text="Dados da Conexão" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+      <Label alignment="CENTER" layoutX="390.0" layoutY="128.0" prefHeight="32.0" prefWidth="133.0" style="&#10;" text="Dados da Conexão" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
          <font>
-            <Font name="Segoe UI" size="15.0" />
+            <Font name="Segoe UI" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="usuarioTextField" layoutX="345.0" layoutY="198.0" onKeyTyped="#onKeyTyped" prefHeight="39.0" prefWidth="218.0" />
-      <PasswordField fx:id="passwordTextField" layoutX="344.0" layoutY="255.0" onKeyTyped="#onKeyTyped" prefHeight="39.0" prefWidth="218.0" />
+      <TextField fx:id="usuarioTextField" layoutX="345.0" layoutY="198.0" onKeyTyped="#onKeyTyped" prefHeight="39.0" prefWidth="218.0">
+         <font>
+            <Font size="16.0" />
+         </font></TextField>
+      <PasswordField fx:id="passwordTextField" layoutX="344.0" layoutY="255.0" onKeyTyped="#onKeyTyped" prefHeight="39.0" prefWidth="218.0">
+         <font>
+            <Font size="16.0" />
+         </font></PasswordField>
       <Button fx:id="saveButton" accessibleRole="CHECK_BOX" defaultButton="true" disable="true" layoutX="318.0" layoutY="368.0" mnemonicParsing="false" onAction="#saveSettings" prefHeight="39.0" prefWidth="104.0" text="Salvar">
          <font>
             <Font name="Segoe UI" size="14.0" />
@@ -40,5 +46,11 @@
             <Font name="Segoe UI" size="14.0" />
          </font>
       </Button>
+      <Label layoutX="397.0" layoutY="434.0" style="-fx-font-style: italic;" text="OpenVNC by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
+      <Label layoutX="709.0" layoutY="420.0" text="1.4 Alpha Build" textAlignment="CENTER">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

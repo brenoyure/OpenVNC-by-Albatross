@@ -120,7 +120,7 @@
                      </font>
                   </RadioButton>
                   <Label layoutX="507.0" layoutY="115.0" style="-fx-font-style: italic;" text="by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
-                  <Hyperlink fx:id="changePasswordLink" layoutX="397.0" layoutY="406.0" onAction="#changePasswordLinkClicked" text="Senha de Acesso">
+                  <Hyperlink fx:id="changePasswordLink" layoutX="366.0" layoutY="406.0" onAction="#changePasswordLinkClicked" text="Configurações da Conexão">
                      <font>
                         <Font size="14.0" />
                      </font>
