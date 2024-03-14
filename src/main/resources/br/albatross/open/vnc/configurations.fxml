@@ -47,7 +47,7 @@
          </font>
       </Button>
       <Label layoutX="397.0" layoutY="434.0" style="-fx-font-style: italic;" text="OpenVNC by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
-      <Label layoutX="709.0" layoutY="420.0" text="1.4 Alpha Build" textAlignment="CENTER">
+      <Label layoutX="709.0" layoutY="420.0" text="1.5 Alpha Build" textAlignment="CENTER">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>

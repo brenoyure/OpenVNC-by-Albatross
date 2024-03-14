@@ -45,7 +45,6 @@ public class ConfigurationsController {
         }
 
         JOptionPane.showMessageDialog(null, "Configurações Salvas com Sucesso", null, JOptionPane.INFORMATION_MESSAGE);
-        JOptionPane.showMessageDialog(null, "Reinicie o OpenVNC para que as alterações entrem em vigor", null, JOptionPane.INFORMATION_MESSAGE);
 
     }
 
