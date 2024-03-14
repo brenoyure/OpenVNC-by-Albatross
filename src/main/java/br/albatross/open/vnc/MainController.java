@@ -1,19 +1,21 @@
 package br.albatross.open.vnc;
 
-import br.albatross.open.vnc.connections.Connection;
-import br.albatross.open.vnc.builders.ConnectionBuilder;
-import br.albatross.open.vnc.builders.ConnectionBuilderFactory;
-import br.albatross.open.vnc.configurations.AvailableHosts;
-import br.albatross.open.vnc.services.MainService;
-import br.albatross.open.vnc.services.PasswordService;
-
 import static java.awt.Desktop.getDesktop;
 
 import java.io.IOException;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.JOptionPane;
+
+import br.albatross.open.vnc.builders.ConnectionBuilder;
+import br.albatross.open.vnc.builders.VncConnectionBuilder;
+import br.albatross.open.vnc.configurations.AvailableHosts;
+import br.albatross.open.vnc.services.MainService;
+import br.albatross.open.vnc.services.configurations.Configuration;
+import br.albatross.open.vnc.services.configurations.VncConfigurationService;
+import br.albatross.open.vnc.starters.ConnectionStarter;
+import br.albatross.open.vnc.starters.VncConnectionStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,9 +23,18 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
-import javax.swing.JOptionPane;
 
 public class MainController {
+
+    private static final String OS_NAME = System.getProperty("os.name");
+
+    private ConnectionBuilder connectionBuilder;
+
+    private ConnectionStarter connectionStarter;
+
+    private Configuration configuration;
+
+    private MainService service;	
 
     /**
      * Represents the text field in the GUI, where users type the IP or
@@ -55,24 +66,23 @@ public class MainController {
      * Represents connection user name, that is recovered by the "user.name"
      * System Property. Basically, the current logged user.
      */
-    private final String userName = System.getenv("VNC_USER");
-    private final String password = System.getenv("domain_password");
-
-    private static final String OS_NAME = System.getProperty("os.name");
-
-    private ConnectionBuilder connectionBuilder;
-
-    private MainService service;
-
-    private PasswordService passwordService;
 
     @FXML
     private Hyperlink changePasswordLink;
 
     public MainController() {
-        connectionBuilder = ConnectionBuilderFactory.newInstance();
-        service = new MainService();
-    } 
+
+    	if (service == null) {
+    		service = new MainService();
+    	}
+
+    	if (configuration == null) {
+
+    		configuration = new VncConfigurationService();
+
+    	}
+    	
+    }
 
     /**
      * Triggers the Builder and Starter components to build and start a VNC
@@ -84,10 +94,19 @@ public class MainController {
      * @param btnClicked
      */
     @FXML
-    private void connectBtnClicked(ActionEvent btnClicked) {
+    public void connectBtnClicked(ActionEvent btnClicked) {
 
-        Connection connection = connectionBuilder.createConnection(host.getText(), userName, password);
-        connectionBuilder.getConnectionStarter().startConnection(connection);
+    	if (connectionBuilder == null) {
+    		connectionBuilder = new VncConnectionBuilder();
+    	}
+    	
+    	if (connectionStarter == null) {
+    		connectionStarter = new VncConnectionStarter();
+    	}
+
+        connectionStarter
+        	.startConnection(connectionBuilder
+        			.createConnection(host.getText(), configuration.getUser(), configuration.getPassword()));
 
     }
 

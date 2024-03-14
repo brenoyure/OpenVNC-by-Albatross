@@ -13,8 +13,6 @@ public final class ConnectionBuilderFactory {
 
     private static ConnectionBuilder connectionBuilder;
 
-    private static final String OS_NAME = System.getProperty("os.name");
-
     /**
      * 
      * @return newInstance of <code>ConnectionBuilder</code>
@@ -22,7 +20,8 @@ public final class ConnectionBuilderFactory {
     public static ConnectionBuilder newInstance() {
 
         if (connectionBuilder == null ) {
-            connectionBuilder = (OS_NAME.contains("Windows")) ? new VncConnectionBuilder() : new SsVncConnectionBuilder();
+
+            connectionBuilder = new VncConnectionBuilder();
         }
 
         return connectionBuilder;

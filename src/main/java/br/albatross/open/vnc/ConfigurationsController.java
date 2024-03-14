@@ -1,15 +1,17 @@
 package br.albatross.open.vnc;
 
-import br.albatross.open.vnc.services.ConfigurationService;
-import br.albatross.open.vnc.services.VncConfigurationService;
 import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
+import br.albatross.open.vnc.services.configurations.Configuration;
+import br.albatross.open.vnc.services.configurations.VncConfigurationService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javax.swing.JOptionPane;
 
 public class ConfigurationsController {
 
@@ -25,21 +27,21 @@ public class ConfigurationsController {
     @FXML
     private Button backToMainButton;
 
-    private ConfigurationService service;    
+    private Configuration configuration;    
 
     @FXML
     private void saveSettings(ActionEvent event) {
         
-        if (service == null) {
-            service = new VncConfigurationService();
-        }
-
-        if (!(passwordTextField.getText() == null || passwordTextField.getText().isBlank())) {
-            service.getPasswordService().savePassword(passwordTextField.getText());
+        if (configuration == null) {
+        	configuration = new VncConfigurationService();
         }
 
         if (!(usuarioTextField.getText() == null || usuarioTextField.getText().isBlank())) {
-            service.getUsuarioService().saveUser(usuarioTextField.getText());
+        	configuration.saveUser(usuarioTextField.getText());
+        }        
+
+        if (!(passwordTextField.getText() == null || passwordTextField.getText().isBlank())) {
+        	configuration.savePassword(passwordTextField.getText());
         }
 
         JOptionPane.showMessageDialog(null, "Configurações Salvas com Sucesso", null, JOptionPane.INFORMATION_MESSAGE);

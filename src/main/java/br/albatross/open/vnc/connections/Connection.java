@@ -5,5 +5,7 @@ public interface Connection {
     String getHost();
     String getUserName();
     String getPassword();
-    
+
+    String getConnectionString();
+
 }
