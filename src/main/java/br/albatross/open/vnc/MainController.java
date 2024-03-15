@@ -37,7 +37,7 @@ public class MainController {
      * Hostname.
      */
     @FXML
-    private TextField hostTextField;
+    private TextField host;
 
     /**
      * Represents the Host-Radio-Button group in the GUI. This group of radio
@@ -102,7 +102,7 @@ public class MainController {
 
         connectionStarter
         	.startConnection(connectionBuilder
-        			.createConnection(hostTextField.getText(), configuration.getUser(), configuration.getPassword()));
+        			.createConnection(host.getText(), configuration.getUser(), configuration.getPassword()));
 
     }
 
@@ -131,7 +131,7 @@ public class MainController {
     @FXML
     private void githubLinkClicked(ActionEvent mouseClickEvent) throws IOException, URISyntaxException {
 
-       service.handleGitHubClickEvent(mouseClickEvent, hostTextField);
+       service.handleGitHubClickEvent(mouseClickEvent, host);
 
     }
 
@@ -144,7 +144,7 @@ public class MainController {
     @FXML
     private void hostBeingTyped(KeyEvent keyType) {
 
-        if (hostTextField.getText().isBlank()) {
+        if (host.getText().isBlank()) {
             connectBtn.setDisable(true);
             return;
 
@@ -155,7 +155,7 @@ public class MainController {
     }
 
     private void handleHostRadioButtonClick(ActionEvent event, String hostnameOrIp) {
-        service.handleHostRadioButtonClick(hostTextField, event, hostnameOrIp);
+        service.handleHostRadioButtonClick(host, event, hostnameOrIp);
         connectBtn.setDisable(true);
     }
 
