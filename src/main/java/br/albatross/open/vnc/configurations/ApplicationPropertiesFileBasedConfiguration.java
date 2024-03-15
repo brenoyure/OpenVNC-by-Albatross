@@ -1,5 +1,8 @@
 package br.albatross.open.vnc.configurations;
 
+import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
+import static java.lang.Runtime.getRuntime;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -17,6 +20,8 @@ public final class ApplicationPropertiesFileBasedConfiguration {
     private static final File PROPERTIES_FOLDER = new File(System.getProperty("user.home"), ".openvnc");
     private static final File PROPERTIES_FILE   = new File(PROPERTIES_FOLDER, "application.properties");
 
+    private static final String[] WINDOWS_ADD_HIDE_ATTRIB_CMD_ARRAY = { "attrib", "+h", PROPERTIES_FOLDER.getAbsolutePath() };
+
     public ApplicationPropertiesFileBasedConfiguration() {
     	loadProperties();
     }
@@ -29,15 +34,10 @@ public final class ApplicationPropertiesFileBasedConfiguration {
         
         try (OutputStream fos = new BufferedOutputStream(new FileOutputStream(PROPERTIES_FILE))) {
 
-            loadProperties();
             properties.setProperty(key, value);
             properties.store(fos, null);
 
         } catch (IOException ex) { throw new RuntimeException(ex); }
-    }
-
-    public boolean contains(String value) {
-        return properties.containsValue(value);
     }
 
     public void loadProperties() {
@@ -50,6 +50,11 @@ public final class ApplicationPropertiesFileBasedConfiguration {
 
 			if (!PROPERTIES_FOLDER.exists()) {
 				PROPERTIES_FOLDER.mkdir();
+			}
+
+			if (IS_WINDOWS_OS) {
+
+				getRuntime().exec(WINDOWS_ADD_HIDE_ATTRIB_CMD_ARRAY);
 			}
 
 			if (!PROPERTIES_FILE.exists()) {

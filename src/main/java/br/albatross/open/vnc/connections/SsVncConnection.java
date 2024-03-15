@@ -6,7 +6,7 @@ package br.albatross.open.vnc.connections;
  * 
  * @author breno.brito
  */
-public class SsVncConnection extends GenericConnection {
+public final class SsVncConnection extends GenericConnection {
 
     private static final byte QUALITY_LEVEL  =  2;
     private static final byte COMPRESS_LEVEL =  7;

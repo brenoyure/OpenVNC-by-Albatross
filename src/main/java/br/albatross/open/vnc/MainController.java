@@ -1,9 +1,8 @@
 package br.albatross.open.vnc;
 
-import static java.awt.Desktop.getDesktop;
+import static br.albatross.open.vnc.configurations.AvailableProperties.IS_LINUX_OS;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.JOptionPane;
@@ -11,7 +10,7 @@ import javax.swing.JOptionPane;
 import br.albatross.open.vnc.builders.ConnectionBuilder;
 import br.albatross.open.vnc.builders.VncConnectionBuilder;
 import br.albatross.open.vnc.configurations.AvailableHosts;
-import br.albatross.open.vnc.services.MainService;
+import br.albatross.open.vnc.services.GuiService;
 import br.albatross.open.vnc.services.configurations.Configuration;
 import br.albatross.open.vnc.services.configurations.VncConfigurationService;
 import br.albatross.open.vnc.starters.ConnectionStarter;
@@ -26,22 +25,19 @@ import javafx.scene.input.KeyEvent;
 
 public class MainController {
 
-    private static final String OS_NAME = System.getProperty("os.name");
-
     private ConnectionBuilder connectionBuilder;
-
     private ConnectionStarter connectionStarter;
 
     private Configuration configuration;
 
-    private MainService service;	
+    private GuiService service;
 
     /**
      * Represents the text field in the GUI, where users type the IP or
      * Hostname.
      */
     @FXML
-    private TextField host;
+    private TextField hostTextField;
 
     /**
      * Represents the Host-Radio-Button group in the GUI. This group of radio
@@ -73,7 +69,7 @@ public class MainController {
     public MainController() {
 
     	if (service == null) {
-    		service = new MainService();
+    		service = new GuiService();
     	}
 
     	if (configuration == null) {
@@ -106,14 +102,14 @@ public class MainController {
 
         connectionStarter
         	.startConnection(connectionBuilder
-        			.createConnection(host.getText(), configuration.getUser(), configuration.getPassword()));
+        			.createConnection(hostTextField.getText(), configuration.getUser(), configuration.getPassword()));
 
     }
 
     @FXML
     private void changePasswordLinkClicked(ActionEvent event) throws IOException {
 
-       if (!OS_NAME.contains("Windows")) {
+       if (IS_LINUX_OS) {
            changePasswordLink.setDisable(true);
            changePasswordLink.setVisited(false);
            JOptionPane.showMessageDialog(null, "Opção ainda não disponível no Linux.", "Opção Não Disponivel", JOptionPane.WARNING_MESSAGE);
@@ -128,23 +124,14 @@ public class MainController {
     /**
      * Redirects the user to the Github Project Creator's page.
      *
-     * @param mouseClick when the link gets clicked by the user.
+     * @param mouseClickEvent when the link gets clicked by the user.
      * @throws IOException if URI is wrong or inacessible.
      * @throws URISyntaxException if URI os wrong.
      */
     @FXML
-    private void githubLinkClicked(ActionEvent mouseClick) throws IOException, URISyntaxException {
+    private void githubLinkClicked(ActionEvent mouseClickEvent) throws IOException, URISyntaxException {
 
-        if (OS_NAME.contains("Linux")) {
-            Runtime.getRuntime().exec("browse https://github.com/brenoyure");
-        }
-
-        else {
-            getDesktop().browse(new URI("https://github.com/brenoyure"));
-
-        }
-
-        service.refocusTextFieldAfterHyperLinkClickEvent(githubLink, host);
+       service.handleGitHubClickEvent(mouseClickEvent, hostTextField);
 
     }
 
@@ -157,7 +144,7 @@ public class MainController {
     @FXML
     private void hostBeingTyped(KeyEvent keyType) {
 
-        if (host.getText().isBlank()) {
+        if (hostTextField.getText().isBlank()) {
             connectBtn.setDisable(true);
             return;
 
@@ -168,7 +155,7 @@ public class MainController {
     }
 
     private void handleHostRadioButtonClick(ActionEvent event, String hostnameOrIp) {
-        service.handleHostRadioButtonClick(host, event, hostnameOrIp);
+        service.handleHostRadioButtonClick(hostTextField, event, hostnameOrIp);
         connectBtn.setDisable(true);
     }
 
