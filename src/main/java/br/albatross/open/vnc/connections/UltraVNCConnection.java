@@ -57,19 +57,15 @@ public final class UltraVNCConnection extends GenericConnection {
 
         }
 
-        if (!this.getUserName().isBlank()) {
+        if (this.getPassword() == null || this.getPassword().isBlank()) {
 
-            sb.append(format(" -user %s ", this.getUserName()));
-
-        }
-
-        if (!this.getPassword().isBlank()) {
-
-            sb.append(format(" -password %s ", this.getPassword()));
+        	return sb.toString();		
 
         }
 
-        return sb.toString();		
+        sb.append(format(" -user %s -password %s ", this.getUserName(), this.getPassword()));
+
+        return sb.toString();
 
 	}
 

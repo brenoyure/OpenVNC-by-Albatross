@@ -56,7 +56,14 @@ public class ConfigurationsController {
 
     @FXML
     private void onKeyTyped(KeyEvent event) {
+        
+        if (usuarioTextField.getText().isBlank() || passwordTextField.getText().isBlank()) {
+            saveButton.setDisable(true);
+            return;
+        }
+
         saveButton.setDisable(false);
+
     }
 
 }
