@@ -1,11 +1,7 @@
 package br.albatross.open.vnc;
 
-import static br.albatross.open.vnc.configurations.AvailableProperties.IS_LINUX_OS;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
-
-import javax.swing.JOptionPane;
 
 import br.albatross.open.vnc.builders.ConnectionBuilder;
 import br.albatross.open.vnc.builders.VncConnectionBuilder;
@@ -23,7 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
 
-public class MainController {
+public final class MainController {
 
     private ConnectionBuilder connectionBuilder;
     private ConnectionStarter connectionStarter;
@@ -68,16 +64,17 @@ public class MainController {
 
     public MainController() {
 
-    	if (service == null) {
-    		service = new GuiService();
-    	}
+        if (service == null) {
 
-    	if (configuration == null) {
+            service = new GuiService();
+        }
 
-    		configuration = new VncConfigurationService();
+        if (configuration == null) {
 
-    	}
-    	
+            configuration = new VncConfigurationService();
+
+        }
+
     }
 
     /**
@@ -109,15 +106,8 @@ public class MainController {
     @FXML
     private void changePasswordLinkClicked(ActionEvent event) throws IOException {
 
-       if (IS_LINUX_OS) {
-           changePasswordLink.setDisable(true);
-           changePasswordLink.setVisited(false);
-           JOptionPane.showMessageDialog(null, "Opção ainda não disponível no Linux.", "Opção Não Disponivel", JOptionPane.WARNING_MESSAGE);
-           changePasswordLink.setText("Opção Atualmente Indisponível");
-           return;
-       }
-
-       App.setRoot("configurations");
+        service.refocusTextFieldAfterHyperLinkClickEvent(changePasswordLink, host);
+        App.setRoot("configurations");
 
     }
 

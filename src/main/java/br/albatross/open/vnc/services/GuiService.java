@@ -1,5 +1,6 @@
 package br.albatross.open.vnc.services;
 
+import static br.albatross.open.vnc.configurations.AvailableProperties.DEV_GITHUB_PAGE_LINK;
 import static br.albatross.open.vnc.configurations.AvailableProperties.IS_LINUX_OS;
 import static java.awt.Desktop.getDesktop;
 
@@ -28,19 +29,21 @@ public final class GuiService {
         textField.forward();
     }
 
-	public void handleGitHubClickEvent(ActionEvent clickEvent, TextField textFieldToBeRefocused) throws IOException, URISyntaxException {
+    public void handleGitHubClickEvent(ActionEvent clickEvent, TextField textFieldToBeRefocused) throws IOException, URISyntaxException {
 
-		if (IS_LINUX_OS) {
-            Runtime.getRuntime().exec("browse https://github.com/brenoyure");
+        if (IS_LINUX_OS) {
+
+            String[] browseCmdArray = { "browse", DEV_GITHUB_PAGE_LINK };
+            Runtime.getRuntime().exec( browseCmdArray );
+
+        } else {
+
+            getDesktop().browse(new URI(DEV_GITHUB_PAGE_LINK));
+
         }
 
-        else {
-            getDesktop().browse(new URI("https://github.com/brenoyure"));
+        refocusTextField(textFieldToBeRefocused);
 
-        }
-
-		refocusTextField(textFieldToBeRefocused);
-
-	}    
+    }
 
 }

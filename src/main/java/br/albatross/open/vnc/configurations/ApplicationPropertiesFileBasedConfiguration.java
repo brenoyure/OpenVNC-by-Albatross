@@ -31,7 +31,7 @@ public final class ApplicationPropertiesFileBasedConfiguration {
     }
 
     public void saveProperty(String key, String value) {
-        
+
         try (OutputStream fos = new BufferedOutputStream(new FileOutputStream(PROPERTIES_FILE))) {
 
             properties.setProperty(key, value);
@@ -42,33 +42,32 @@ public final class ApplicationPropertiesFileBasedConfiguration {
 
     public void loadProperties() {
 
-		try {
+        try {
 
-			if (properties == null) {
-				properties = new Properties();
-			}
+            if (properties == null) {
+                properties = new Properties();
+            }
 
-			if (!PROPERTIES_FOLDER.exists()) {
-				PROPERTIES_FOLDER.mkdir();
-			}
+            if (!PROPERTIES_FOLDER.exists()) {
+                PROPERTIES_FOLDER.mkdir();
+            }
 
-			if (IS_WINDOWS_OS) {
+            if (IS_WINDOWS_OS) {
 
-				getRuntime().exec(WINDOWS_ADD_HIDE_ATTRIB_CMD_ARRAY);
-			}
+                getRuntime().exec(WINDOWS_ADD_HIDE_ATTRIB_CMD_ARRAY);
+            }
 
-			if (!PROPERTIES_FILE.exists()) {
-				PROPERTIES_FILE.createNewFile();
-			}
+            if (!PROPERTIES_FILE.exists()) {
+                PROPERTIES_FILE.createNewFile();
+            }
 
-			try (InputStream fis = new BufferedInputStream(new FileInputStream(PROPERTIES_FILE))) {
-				properties.load(fis);
+            try (InputStream fis = new BufferedInputStream(new FileInputStream(PROPERTIES_FILE))) {
+                properties.load(fis);
 
-			}
-		}
+            }
 
-		catch (IOException e) { throw new RuntimeException(e); }
+        } catch (IOException e) { throw new RuntimeException(e); }
 
-	}    
+    }
 
 }

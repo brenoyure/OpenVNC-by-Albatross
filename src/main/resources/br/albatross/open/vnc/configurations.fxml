@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.ConfigurationsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.ConfigurationsController">
    <children>
       <Label alignment="CENTER" layoutX="347.0" layoutY="44.0" prefHeight="61.0" prefWidth="218.0" style="&#10;" text="Configurações" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
          <font>
@@ -19,11 +19,11 @@
             <Font name="Segoe UI" size="18.0" />
          </font>
       </Label>
-      <Label contentDisplay="CENTER" layoutX="132.0" layoutY="259.0" prefHeight="32.0" prefWidth="104.0" text="Nova Senha:" textAlignment="CENTER">
+      <Label fx:id="passwordLabel" contentDisplay="CENTER" layoutX="132.0" layoutY="259.0" prefHeight="32.0" prefWidth="118.0" text="Nova Senha:" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label alignment="CENTER" layoutX="390.0" layoutY="128.0" prefHeight="32.0" prefWidth="133.0" style="&#10;" text="Dados da Conexão" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+      <Label alignment="CENTER" layoutX="369.0" layoutY="128.0" prefHeight="32.0" prefWidth="154.0" style="&#10;" text="Dados da Conexão" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
          <font>
             <Font name="Segoe UI" size="16.0" />
          </font>
@@ -47,9 +47,14 @@
          </font>
       </Button>
       <Label layoutX="397.0" layoutY="434.0" style="-fx-font-style: italic;" text="OpenVNC by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
-      <Label layoutX="709.0" layoutY="420.0" text="1.7 Alpha Build" textAlignment="CENTER">
+      <Label layoutX="709.0" layoutY="420.0" text="1.8 Alpha Build" textAlignment="CENTER">
          <font>
             <Font name="Segoe UI" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="savePasswordNoAvailableLabel" alignment="CENTER" layoutX="235.0" layoutY="312.0" prefHeight="32.0" prefWidth="442.0" style="&#10;" text="Salvar Senha ainda não disponivel no Linux" visible="false" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+         <font>
+            <Font name="Segoe UI" size="16.0" />
          </font>
       </Label>
    </children>
