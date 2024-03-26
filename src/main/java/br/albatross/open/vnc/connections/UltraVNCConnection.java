@@ -1,5 +1,7 @@
 package br.albatross.open.vnc.connections;
 
+import br.albatross.open.vnc.services.configurations.Configuration;
+import br.albatross.open.vnc.services.configurations.VncConfigurationService;
 import static java.lang.String.format;
 
 /**
@@ -10,11 +12,7 @@ import static java.lang.String.format;
  */
 public final class UltraVNCConnection extends GenericConnection {
 
-    /**
-     * Represents the Envoiroment Variable VNC_HOME, where the software
-     * .exe of the UltraVNC® Viewer is located.
-     */
-    private static final String VNC_HOME_DIR = System.getenv("VNC_HOME");
+    private Configuration configuration;
 
     /**
      * If for some reson the UltraVNC® Connection drops, it will automatically try to
@@ -31,18 +29,27 @@ public final class UltraVNCConnection extends GenericConnection {
      */
     private static final byte AUTO_RECONNECT_COUNT = 50;
 
-    private static final String VNC_CONNECTION_TEMPLATE_STRING = format("%s\\vncviewer.exe -connect -autoreconnect %d -reconnectcounter %d ", VNC_HOME_DIR, AUTO_RECONNECT_COUNT_SECONDS, AUTO_RECONNECT_COUNT);
+    private final String VNC_CONNECTION_TEMPLATE_STRING = format("%s\\vncviewer.exe -connect -autoreconnect %d -reconnectcounter %d ", configuration.onWindowsGetVNCDirectory(), AUTO_RECONNECT_COUNT_SECONDS, AUTO_RECONNECT_COUNT);
 
     public UltraVNCConnection(String host) {
     	super(host, null, null);
+        if (configuration == null) {
+            configuration = new VncConfigurationService();
+        }
     }
 
     public UltraVNCConnection(String host, String userName) {
     	super(host, userName, null);
+        if (configuration == null) {
+            configuration = new VncConfigurationService();
+        }
     }
 
     public UltraVNCConnection(String host, String userName, String password) {
         super(host, userName, password);
+        if (configuration == null) {
+            configuration = new VncConfigurationService();
+        }
     }
 
 	@Override

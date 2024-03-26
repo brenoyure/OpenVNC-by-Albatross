@@ -11,8 +11,8 @@ public final class ApplicationPropertiesFileBasedCredentialsService implements C
 
     private ApplicationPropertiesFileBasedConfiguration properties;
 
-    public ApplicationPropertiesFileBasedCredentialsService() {
-        properties = new ApplicationPropertiesFileBasedConfiguration();
+    public ApplicationPropertiesFileBasedCredentialsService(ApplicationPropertiesFileBasedConfiguration properties) {
+        this.properties = properties;
     }
 
     @Override

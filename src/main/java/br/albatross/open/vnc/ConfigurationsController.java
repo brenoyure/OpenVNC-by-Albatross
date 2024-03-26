@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
 
 import br.albatross.open.vnc.services.configurations.Configuration;
 import br.albatross.open.vnc.services.configurations.VncConfigurationService;
+import java.awt.Window;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,6 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.DirectoryChooser;
 
 public class ConfigurationsController implements Initializable {
 
@@ -29,6 +33,18 @@ public class ConfigurationsController implements Initializable {
 
     @FXML
     private Label savePasswordNoAvailableLabel;    
+
+    @FXML
+    private Label passwordLabel;
+
+    @FXML
+    private Label onWindowsSelectUltraVNCInstallDirLabel;
+
+    @FXML
+    private Button onWindowsSelectUltraVNCInstallDirButton;
+
+    @FXML
+    private TextField onWindowsSelectUltraVNCInstallDirTextField;
 
     @FXML
     private Button saveButton;
@@ -58,6 +74,22 @@ public class ConfigurationsController implements Initializable {
 
         usuarioTextField.setText(username);
 
+        if (IS_WINDOWS_OS) {
+
+            onWindowsSelectUltraVNCInstallDirLabel.setVisible(true);
+            onWindowsSelectUltraVNCInstallDirTextField.setVisible(true);
+            onWindowsSelectUltraVNCInstallDirButton.setVisible(true);
+
+            String vncInstallDir = configuration.onWindowsGetVNCDirectory();
+
+            if (vncInstallDir == null) {
+                return;
+            }
+
+            onWindowsSelectUltraVNCInstallDirTextField.setText(vncInstallDir);
+
+        }
+
     }
 
     @FXML
@@ -71,8 +103,31 @@ public class ConfigurationsController implements Initializable {
             configuration.savePassword(passwordTextField.getText());
         }
 
+        if (IS_WINDOWS_OS) {
+            String vncInstallDir = onWindowsSelectUltraVNCInstallDirTextField.getText();
+            
+            if (!(vncInstallDir == null || vncInstallDir.isBlank())) {
+                configuration.onWindowsSaveVNCDirectory(vncInstallDir);
+            }
+            
+        }
+
         JOptionPane.showMessageDialog(null, "Configurações Salvas com Sucesso", null, JOptionPane.INFORMATION_MESSAGE);
         backToMainButton(event);
+
+    }
+
+    @FXML
+    private void onWindowsSelectUltraVNCInstallDir(MouseEvent event) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(null);
+
+        if (selectedDirectory == null) {
+            return;
+        }
+
+        saveButton.setDisable(false);
+        onWindowsSelectUltraVNCInstallDirTextField.setText(selectedDirectory.getAbsolutePath());
 
     }
 

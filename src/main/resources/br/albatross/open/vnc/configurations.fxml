@@ -47,15 +47,26 @@
          </font>
       </Button>
       <Label layoutX="397.0" layoutY="434.0" style="-fx-font-style: italic;" text="OpenVNC by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
-      <Label layoutX="709.0" layoutY="420.0" text="1.8 Alpha Build" textAlignment="CENTER">
+      <Label layoutX="709.0" layoutY="420.0" text="1.9 Alpha Build" textAlignment="CENTER">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="savePasswordNoAvailableLabel" alignment="CENTER" layoutX="235.0" layoutY="312.0" prefHeight="32.0" prefWidth="442.0" style="&#10;" text="Salvar Senha ainda não disponivel no Linux" visible="false" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+      <Label fx:id="savePasswordNoAvailableLabel" alignment="CENTER" layoutX="235.0" layoutY="312.0" prefHeight="32.0" prefWidth="442.0" style="&#10;" text="Salvar Senha ainda não disponivel no Linux" textAlignment="CENTER" textFill="#9f9f9f" visible="false" wrapText="false">
          <font>
             <Font name="Segoe UI" size="16.0" />
          </font>
       </Label>
+      <Label fx:id="onWindowsSelectUltraVNCInstallDirLabel" contentDisplay="CENTER" layoutX="132.0" layoutY="312.0" prefHeight="32.0" prefWidth="172.0" text="Pasta do UltraVNC®" textAlignment="CENTER" visible="false" >
+         <font>
+            <Font name="Segoe UI" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="onWindowsSelectUltraVNCInstallDirButton" layoutX="586.0" layoutY="317.0" mnemonicParsing="false" onAction="#onWindowsSelectUltraVNCInstallDir" text="Procurar..." visible="false" />
+      <TextField fx:id="onWindowsSelectUltraVNCInstallDirTextField" editable="false" layoutX="344.0" layoutY="310.0" onMouseClicked="#onWindowsSelectUltraVNCInstallDir" prefHeight="39.0" prefWidth="218.0" visible="false" >
+         <font>
+            <Font size="12.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>
