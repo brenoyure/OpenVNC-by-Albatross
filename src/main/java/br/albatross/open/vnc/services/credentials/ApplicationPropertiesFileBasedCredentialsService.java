@@ -5,14 +5,15 @@ import static br.albatross.open.vnc.configurations.AvailableProperties.CONNECTIO
 
 import java.util.Base64;
 
-import br.albatross.open.vnc.configurations.ApplicationPropertiesFileBasedConfiguration;
+import br.albatross.open.vnc.configurations.ApplicationProperties;
+import java.util.Optional;
 
 public final class ApplicationPropertiesFileBasedCredentialsService implements CredentialsService {
 
-    private ApplicationPropertiesFileBasedConfiguration properties;
+    private final ApplicationProperties properties;
 
-    public ApplicationPropertiesFileBasedCredentialsService(ApplicationPropertiesFileBasedConfiguration properties) {
-        this.properties = properties;
+    public ApplicationPropertiesFileBasedCredentialsService(ApplicationProperties properties) {
+    	this.properties = properties;
     }
 
     @Override
@@ -28,34 +29,33 @@ public final class ApplicationPropertiesFileBasedCredentialsService implements C
 
         String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
         properties.saveProperty(CONNECTION_PASSWORD, encodedPassword);
-    }
-
-    @Override
-    public String getUsername() {
-
-        String encodedUsername = properties.getProperty(CONNECTION_USER);
-
-        if (encodedUsername == null || encodedUsername.isBlank()) {
-            return null;
-        }
-
-        String decodedUsername = new String(Base64.getDecoder().decode(encodedUsername));
-        return decodedUsername;
 
     }
 
     @Override
-    public String getPassword() {
+    public Optional<String> getUsername() {
 
-        String encodedPassword = properties.getProperty(CONNECTION_PASSWORD);
+        Optional<String> encodedUsername = properties.getProperty(CONNECTION_USER);
 
-        if (encodedPassword == null || encodedPassword.isBlank()) {
-            return null;
+        if (encodedUsername.isEmpty()) {
+            return Optional.empty();
         }
 
-        String decodedPassword = new String(Base64.getDecoder().decode(encodedPassword));
+        return Optional.of(new String(Base64.getDecoder().decode(encodedUsername.get())));
 
-        return decodedPassword;
+    }
+
+    @Override
+    public Optional<String> getPassword() {
+
+        Optional<String> encodedPassword = properties.getProperty(CONNECTION_PASSWORD);
+
+        if (encodedPassword.isEmpty()) {
+            return Optional.empty();
+        }
+
+        String decodedPassword = new String(Base64.getDecoder().decode(encodedPassword.get()));
+        return Optional.ofNullable(decodedPassword);
 
     }
 

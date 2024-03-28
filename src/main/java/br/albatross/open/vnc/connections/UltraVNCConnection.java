@@ -1,25 +1,27 @@
 package br.albatross.open.vnc.connections;
 
-import br.albatross.open.vnc.services.configurations.Configuration;
-import br.albatross.open.vnc.services.configurations.VncConfigurationService;
 import static java.lang.String.format;
 
+import java.io.File;
+
+import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguration;
+
 /**
- * Responsible a UltraVNC® Viewer Connection with 
+ * Represents a UltraVNC® Viewer Connection with 
  * it's connection string in the Windows® OS.
  * 
  * @author breno.brito
  */
 public final class UltraVNCConnection extends GenericConnection {
 
-    private Configuration configuration;
+	private WindowsSpecificConfiguration configuration;
 
     /**
      * If for some reson the UltraVNC® Connection drops, it will automatically try to
      * reconnect to the user machine. This int value represents how much seconds
      * the Viewer must wait before re-sending the request to the user.
      */
-    private static final byte AUTO_RECONNECT_COUNT_SECONDS = 1;
+    private static final byte AUTO_RECONNECT_COUNT_SECONDS = 3;
 
     /**
      * If for some reson the UltraVNC® Connection drops, it will automatically try to
@@ -29,51 +31,42 @@ public final class UltraVNCConnection extends GenericConnection {
      */
     private static final byte AUTO_RECONNECT_COUNT = 50;
 
-    private final String VNC_CONNECTION_TEMPLATE_STRING = format("%s\\vncviewer.exe -connect -autoreconnect %d -reconnectcounter %d ", configuration.onWindowsGetVNCDirectory(), AUTO_RECONNECT_COUNT_SECONDS, AUTO_RECONNECT_COUNT);
+    private static final String VNC_CONNECTION_TEMPLATE_STRING = format("vncviewer.exe -connect -autoreconnect %d -reconnectcounter %d ", AUTO_RECONNECT_COUNT_SECONDS, AUTO_RECONNECT_COUNT);
 
-    public UltraVNCConnection(String host) {
-    	super(host, null, null);
-        if (configuration == null) {
-            configuration = new VncConfigurationService();
-        }
+    public UltraVNCConnection(String host, WindowsSpecificConfiguration configuration) {
+    	super(host);
+    	this.configuration = configuration;
+    	configuration.getUser().ifPresent(super::setUsername);
+    	configuration.getPassword().ifPresent(super::setPassword);
     }
 
-    public UltraVNCConnection(String host, String userName) {
-    	super(host, userName, null);
-        if (configuration == null) {
-            configuration = new VncConfigurationService();
-        }
-    }
-
-    public UltraVNCConnection(String host, String userName, String password) {
+    public UltraVNCConnection(String host, String userName, String password, WindowsSpecificConfiguration configuration) {
         super(host, userName, password);
-        if (configuration == null) {
-            configuration = new VncConfigurationService();
-        }
+        this.configuration = configuration;
     }
 
-	@Override
-	public String getConnectionString() {
+    @Override
+    public String getConnectionString() {
 
-        StringBuilder sb = new StringBuilder(VNC_CONNECTION_TEMPLATE_STRING);
-        sb.append(String.format("%s:5900", this.getHost()));
+        StringBuilder sb = new StringBuilder();
+        configuration.getVncDirectory().ifPresent(directoryString -> sb
+        		.append(directoryString)
+        		.append(File.separator));
 
-        if (this.getUserName() == null || this.getUserName().isBlank()) {
+        sb
+            .append(VNC_CONNECTION_TEMPLATE_STRING)
+            .append(String.format("%s:5900", this.getHost()));
+
+        if (this.getUserName() == null || this.getPassword() == null || this.getUserName().isBlank() || this.getPassword().isBlank()) {
 
             return sb.toString();
 
         }
 
-        if (this.getPassword() == null || this.getPassword().isBlank()) {
-
-        	return sb.toString();		
-
-        }
-
-        sb.append(format(" -user %s -password %s ", this.getUserName(), this.getPassword()));
+        sb.append(format(" -user %s -password %s", this.getUserName(), this.getPassword()));
 
         return sb.toString();
 
-	}
+    }
 
 }

@@ -4,11 +4,17 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import br.albatross.open.vnc.builders.ConnectionBuilder;
-import br.albatross.open.vnc.builders.VncConnectionBuilder;
+import br.albatross.open.vnc.builders.SsVncConnectionBuilder;
+import br.albatross.open.vnc.builders.UltraVncConnectionBuilder;
+import br.albatross.open.vnc.configurations.ApplicationProperties;
+import br.albatross.open.vnc.configurations.ApplicationPropertiesFileBasedConfiguration;
 import br.albatross.open.vnc.configurations.AvailableHosts;
 import br.albatross.open.vnc.services.GuiService;
 import br.albatross.open.vnc.services.configurations.Configuration;
 import br.albatross.open.vnc.services.configurations.VncConfigurationService;
+import br.albatross.open.vnc.services.configurations.WindowsVncConfigurationService;
+import br.albatross.open.vnc.services.credentials.ApplicationPropertiesFileBasedCredentialsService;
+import br.albatross.open.vnc.services.credentials.CredentialsService;
 import br.albatross.open.vnc.starters.ConnectionStarter;
 import br.albatross.open.vnc.starters.VncConnectionStarter;
 import javafx.event.ActionEvent;
@@ -19,14 +25,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
 
+import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
+import br.albatross.open.vnc.connections.Connection;
+import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguration;
+
 public final class MainController {
-
-    private ConnectionBuilder connectionBuilder;
-    private ConnectionStarter connectionStarter;
-
-    private Configuration configuration;
-
-    private GuiService service;
 
     /**
      * Represents the text field in the GUI, where users type the IP or
@@ -62,18 +65,23 @@ public final class MainController {
     @FXML
     private Hyperlink changePasswordLink;
 
+    private ConnectionBuilder connectionBuilder;
+    private ConnectionStarter connectionStarter;
+
+    private Configuration configuration;
+
+    private GuiService service;
+
     public MainController() {
 
-        if (service == null) {
+        service = new GuiService();
 
-            service = new GuiService();
-        }
+        ApplicationProperties applicationProperties = new ApplicationPropertiesFileBasedConfiguration();
+        CredentialsService credentialsService       = new ApplicationPropertiesFileBasedCredentialsService(applicationProperties);
 
-        if (configuration == null) {
-
-            configuration = new VncConfigurationService();
-
-        }
+        this.configuration = IS_WINDOWS_OS ? 
+                new WindowsVncConfigurationService(applicationProperties, credentialsService) : 
+                new VncConfigurationService(credentialsService);
 
     }
 
@@ -90,16 +98,22 @@ public final class MainController {
     public void connectBtnClicked(ActionEvent btnClicked) {
 
     	if (connectionBuilder == null) {
-    		connectionBuilder = new VncConnectionBuilder();
-    	}
-    	
-    	if (connectionStarter == null) {
-    		connectionStarter = new VncConnectionStarter();
+
+            this.connectionBuilder = (IS_WINDOWS_OS) ? 
+                new UltraVncConnectionBuilder((WindowsSpecificConfiguration) configuration) :
+                new SsVncConnectionBuilder();
     	}
 
-        connectionStarter
-        	.startConnection(connectionBuilder
-        			.createConnection(host.getText(), configuration.getUser(), configuration.getPassword()));
+        if (connectionStarter == null) {
+            connectionStarter = new VncConnectionStarter();
+        }
+
+        Connection connection = connectionBuilder.createConnection(host.getText());
+
+        configuration.getUser().ifPresent(connection::setUsername);
+        configuration.getPassword().ifPresent(connection::setPassword);
+
+        connectionStarter.startConnection(connection);
 
     }
 
@@ -107,7 +121,9 @@ public final class MainController {
     private void changePasswordLinkClicked(ActionEvent event) throws IOException {
 
         service.refocusTextFieldAfterHyperLinkClickEvent(changePasswordLink, host);
-        App.setRoot("configurations");
+
+        String configurationsController = (IS_WINDOWS_OS) ? "windows-configurations" : "configurations";
+        App.setRoot(configurationsController);
 
     }
 
@@ -122,6 +138,7 @@ public final class MainController {
     private void githubLinkClicked(ActionEvent mouseClickEvent) throws IOException, URISyntaxException {
 
        service.handleGitHubClickEvent(mouseClickEvent, host);
+       githubLink.setVisited(false);
 
     }
 

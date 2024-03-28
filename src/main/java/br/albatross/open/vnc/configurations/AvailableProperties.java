@@ -9,7 +9,7 @@ public interface AvailableProperties {
     String APP_ICON_RESOURCE_PATH     = "acesso-remoto.png";
     String DEV_GITHUB_PAGE_LINK       = "https://github.com/brenoyure";
 
-    String ON_WINDOWS_VNC_HOME_DIR = "VNC_HOME_DIR";
+    String ON_WINDOWS_VNC_HOME_DIR    = "VNC_HOME_DIR";
 
     boolean IS_LINUX_OS   =   System.getProperty("os.name").contains("Linux");
     boolean IS_WINDOWS_OS = !(System.getProperty("os.name").contains("Linux"));

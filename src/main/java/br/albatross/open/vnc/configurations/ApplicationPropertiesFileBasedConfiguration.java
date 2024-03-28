@@ -11,9 +11,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 import java.util.Properties;
 
-public final class ApplicationPropertiesFileBasedConfiguration {
+public class ApplicationPropertiesFileBasedConfiguration implements ApplicationProperties {
 
     private Properties properties;    
 
@@ -26,21 +27,25 @@ public final class ApplicationPropertiesFileBasedConfiguration {
     	loadProperties();
     }
 
-    public String getProperty(String propertyKey) {
-        return properties.getProperty(propertyKey);
+    @Override
+    public Optional<String> getProperty(String propertyKey) {
+        return Optional.ofNullable(properties.getProperty(propertyKey));
     }
 
-    public void saveProperty(String key, String value) {
+    @Override
+    public String saveProperty(String key, String value) {
 
         try (OutputStream fos = new BufferedOutputStream(new FileOutputStream(PROPERTIES_FILE))) {
 
             properties.setProperty(key, value);
             properties.store(fos, null);
 
+            return value;
+
         } catch (IOException ex) { throw new RuntimeException(ex); }
     }
 
-    public void loadProperties() {
+    private void loadProperties() {
 
         try {
 
