@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/17.0.10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.MainController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/17.0.10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.controllers.MainController">
     <stylesheets>
         <URL value="@/styles/main.css" />
     </stylesheets>
@@ -40,6 +40,16 @@
                      </toggleGroup>
                   </RadioButton>
                   <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="152.0" mnemonicParsing="false" onAction="#primeiroAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="1º Andar" toggleGroup="$host_radio_button">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="181.0" mnemonicParsing="false" onAction="#segundoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="2º Andar" toggleGroup="$host_radio_button">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="212.0" mnemonicParsing="false" onAction="#terceiroAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="3º Andar" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -74,6 +84,16 @@
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
+                  <RadioButton contentDisplay="CENTER" layoutX="699.0" layoutY="123.0" mnemonicParsing="false" onAction="#suporteRadioBtnClicked" prefHeight="22.0" prefWidth="135.0" text="Suporte Rede 50" toggleGroup="$host_radio_button">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton contentDisplay="CENTER" layoutX="699.0" layoutY="151.0" mnemonicParsing="false" onAction="#casaAmarelaTransporteRadioBtnClicked" prefHeight="24.0" prefWidth="196.0" text="Transporte/Casa Amarela" textAlignment="CENTER" toggleGroup="$host_radio_button">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </RadioButton>
                   <RadioButton contentDisplay="CENTER" layoutX="228.0" layoutY="201.0" mnemonicParsing="false" onAction="#maquinaDellRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="Dell" toggleGroup="$host_radio_button">
                      <font>
                         <Font size="13.0" />
@@ -94,7 +114,7 @@
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <Label layoutX="699.0" layoutY="410.0" text="1.9 Alpha Build" textAlignment="CENTER">
+                  <Label layoutX="699.0" layoutY="410.0" text="2.0 Alpha Build" textAlignment="CENTER">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -104,32 +124,12 @@
                         <Font size="14.0" />
                      </font>
                   </Hyperlink>
-                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="181.0" mnemonicParsing="false" onAction="#segundoAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="2º Andar" toggleGroup="$host_radio_button">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="605.0" layoutY="212.0" mnemonicParsing="false" onAction="#terceiroAndarRadioBtnClicked" prefHeight="22.0" prefWidth="94.0" text="3º Andar" toggleGroup="$host_radio_button">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="699.0" layoutY="151.0" mnemonicParsing="false" onAction="#casaAmarelaTransporteRadioBtnClicked" prefHeight="24.0" prefWidth="196.0" text="Transporte/Casa Amarela" textAlignment="CENTER" toggleGroup="$host_radio_button">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </RadioButton>
                   <Label layoutX="507.0" layoutY="115.0" style="-fx-font-style: italic;" text="by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
                   <Hyperlink fx:id="changePasswordLink" layoutX="405.0" layoutY="406.0" onAction="#changePasswordLinkClicked" text="Configurações">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Hyperlink>
-                  <RadioButton contentDisplay="CENTER" layoutX="699.0" layoutY="123.0" mnemonicParsing="false" onAction="#suporteRadioBtnClicked" prefHeight="22.0" prefWidth="135.0" text="Suporte Rede 50" toggleGroup="$host_radio_button">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </RadioButton>
             </children>
           </AnchorPane>
         </children>

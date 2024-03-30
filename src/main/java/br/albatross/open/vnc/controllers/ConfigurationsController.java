@@ -1,23 +1,27 @@
-package br.albatross.open.vnc;
+package br.albatross.open.vnc.controllers;
 
 import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import br.albatross.open.vnc.App;
 import br.albatross.open.vnc.configurations.ApplicationProperties;
 import br.albatross.open.vnc.configurations.ApplicationPropertiesFileBasedConfiguration;
 import br.albatross.open.vnc.services.configurations.Configuration;
 import br.albatross.open.vnc.services.configurations.VncConfigurationService;
 import br.albatross.open.vnc.services.credentials.ApplicationPropertiesFileBasedCredentialsService;
 import br.albatross.open.vnc.services.credentials.CredentialsService;
+import br.albatross.open.vnc.services.gui.GuiService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -43,6 +47,11 @@ public class ConfigurationsController implements Initializable {
     @FXML
     private Button backToMainButton;
 
+    @FXML
+    private Hyperlink githubLink;
+
+    private GuiService guiService;
+
     private Configuration configuration;
 
     public ConfigurationsController() {
@@ -50,6 +59,7 @@ public class ConfigurationsController implements Initializable {
     	ApplicationProperties applicationProperties = new ApplicationPropertiesFileBasedConfiguration();
     	CredentialsService credentialsService       = new ApplicationPropertiesFileBasedCredentialsService(applicationProperties);
     	this.configuration                          = new VncConfigurationService(credentialsService);
+    	this.guiService                             = new GuiService();
 
     }
 
@@ -95,6 +105,12 @@ public class ConfigurationsController implements Initializable {
 
         saveButton.setDisable(false);
 
+    }
+
+    @FXML
+    private void githubLinkClicked(ActionEvent event) throws IOException, URISyntaxException {
+        guiService.handleGitHubClickEvent(event, usuarioTextField);
+        githubLink.setVisited(false);
     }
 
 }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.WindowsConfigurationsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.controllers.WindowsConfigurationsController">
    <children>
       <Label alignment="CENTER" layoutX="348.0" layoutY="35.0" prefHeight="61.0" prefWidth="218.0" style="&#10;" text="Configurações" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
          <font>
@@ -37,8 +38,8 @@
             <Font size="16.0" />
          </font>
       </PasswordField>
-      <Label layoutX="397.0" layoutY="438.0" style="-fx-font-style: italic;" text="OpenVNC by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
-      <Label layoutX="709.0" layoutY="420.0" text="1.9 Alpha Build" textAlignment="CENTER">
+      <Hyperlink fx:id="githubLink" layoutX="397.0" layoutY="438.0" style="-fx-font-style: italic;" text="OpenVNC by Albatross" onAction="#githubLinkClicked" textAlignment="CENTER" textFill="#9f9f9f" />
+      <Label layoutX="709.0" layoutY="420.0" text="2.0 Alpha Build" textAlignment="CENTER">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>

@@ -10,6 +10,11 @@ public abstract class GenericConnection implements Connection {
 		this.host = host;
 	}
 
+    public GenericConnection(String host, String username) {
+        this.host = host;
+        this.username = username;
+    }
+
 	public GenericConnection(String host, String username, String password) {
 		this.host = host;
 		this.username = username;

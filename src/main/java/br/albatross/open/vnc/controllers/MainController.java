@@ -1,4 +1,6 @@
-package br.albatross.open.vnc;
+package br.albatross.open.vnc.controllers;
+
+import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -9,12 +11,14 @@ import br.albatross.open.vnc.builders.UltraVncConnectionBuilder;
 import br.albatross.open.vnc.configurations.ApplicationProperties;
 import br.albatross.open.vnc.configurations.ApplicationPropertiesFileBasedConfiguration;
 import br.albatross.open.vnc.configurations.AvailableHosts;
-import br.albatross.open.vnc.services.GuiService;
+import br.albatross.open.vnc.connections.Connection;
 import br.albatross.open.vnc.services.configurations.Configuration;
 import br.albatross.open.vnc.services.configurations.VncConfigurationService;
+import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguration;
 import br.albatross.open.vnc.services.configurations.WindowsVncConfigurationService;
 import br.albatross.open.vnc.services.credentials.ApplicationPropertiesFileBasedCredentialsService;
 import br.albatross.open.vnc.services.credentials.CredentialsService;
+import br.albatross.open.vnc.services.gui.GuiService;
 import br.albatross.open.vnc.starters.ConnectionStarter;
 import br.albatross.open.vnc.starters.VncConnectionStarter;
 import javafx.event.ActionEvent;
@@ -22,12 +26,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
-
-import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
-import br.albatross.open.vnc.connections.Connection;
-import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguration;
 
 public final class MainController {
 
@@ -37,13 +36,6 @@ public final class MainController {
      */
     @FXML
     private TextField host;
-
-    /**
-     * Represents the Host-Radio-Button group in the GUI. This group of radio
-     * buttons is used so that users can select only ONE button.
-     */
-    @FXML
-    private ToggleGroup host_radio_button;
 
     /**
      * Represents connect button in the GUI's.
@@ -56,11 +48,6 @@ public final class MainController {
      */
     @FXML
     private Hyperlink githubLink;
-
-    /**
-     * Represents connection user name, that is recovered by the "user.name"
-     * System Property. Basically, the current logged user.
-     */
 
     @FXML
     private Hyperlink changePasswordLink;
@@ -120,10 +107,7 @@ public final class MainController {
     @FXML
     private void changePasswordLinkClicked(ActionEvent event) throws IOException {
 
-        service.refocusTextFieldAfterHyperLinkClickEvent(changePasswordLink, host);
-
-        String configurationsController = (IS_WINDOWS_OS) ? "windows-configurations" : "configurations";
-        App.setRoot(configurationsController);
+        service.goToConfigurationScreen();
 
     }
 

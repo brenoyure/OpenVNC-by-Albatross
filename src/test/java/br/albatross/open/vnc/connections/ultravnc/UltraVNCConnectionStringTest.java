@@ -1,4 +1,4 @@
-package br.albatross.open.vnc.connections;
+package br.albatross.open.vnc.connections.ultravnc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import br.albatross.open.vnc.builders.ConnectionBuilder;
 import br.albatross.open.vnc.builders.UltraVncConnectionBuilder;
+import br.albatross.open.vnc.connections.Connection;
+import br.albatross.open.vnc.connections.UltraVNCConnection;
 import br.albatross.open.vnc.service.FakeWindowsVncConfigurationServiceWithNotNullUsernameAndPasswordImpl;
 import br.albatross.open.vnc.service.FakeWindowsVncConfigurationServiceWithNotNullVncDirectoryAndNullUsernameAndPasswordImpl;
 import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguration;
@@ -36,7 +38,7 @@ public class UltraVNCConnectionStringTest {
 
         String expectedString =
                 "C:\\Program Files\\uvnc bvba\\UltraVnc\\vncviewer.exe -connect -autoreconnect 3 -reconnectcounter 50 10.40.10.100:5900";
-        
+
         assertEquals(expectedString, connection.getConnectionString());
 
     }
@@ -59,9 +61,7 @@ public class UltraVNCConnectionStringTest {
     void testaSeAStringDeConexaoComDiretorioVNCHostUsuarioESenhaEstaCorreta() {
 
     	WindowsSpecificConfiguration configuration =  new FakeWindowsVncConfigurationServiceWithNotNullUsernameAndPasswordImpl();
-    	ConnectionBuilder connectionBuilder        =  new UltraVncConnectionBuilder(configuration);
-
-    	Connection connection = connectionBuilder.createConnection("10.40.10.100");
+    	Connection connection = new UltraVNCConnection("10.40.10.100", configuration);
 
     	String expectedString = 
     			"C:\\Program Files\\uvnc bvba\\UltraVnc\\vncviewer.exe -connect -autoreconnect 3 -reconnectcounter 50 10.40.10.100:5900 -user albatross18 -password connection-password-123";

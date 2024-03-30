@@ -11,21 +11,26 @@ public final class SsVncConnection extends GenericConnection {
     private static final byte QUALITY_LEVEL  = 2;
     private static final byte COMPRESS_LEVEL = 7;
 
-    private static final String CONNECTION_STRING_TEMPLATE = String.format("ssvncviewer -quality %d -compresslevel %d -16bpp ", QUALITY_LEVEL, COMPRESS_LEVEL);
+    private static final String CONNECTION_STRING_TEMPLATE = String.format("ssvncviewer -quality %d -compresslevel %d -16bpp", QUALITY_LEVEL, COMPRESS_LEVEL);
 
     public SsVncConnection(String host) {
         super(host);
     }
 
     public SsVncConnection(String host, String userName) {
-        super(host, userName, null);
+        super(host, userName);
     }
 
     @Override
     public String getConnectionString() {
 
+        if (this.getHost() == null || this.getHost().isBlank()) {
+            return CONNECTION_STRING_TEMPLATE;
+        }
+
         StringBuilder sb = new StringBuilder(CONNECTION_STRING_TEMPLATE);
-        sb.append(String.format(" %s:5900 ", this.getHost()));
+        
+        sb.append(String.format(" %s:5900", this.getHost()));
 
         if (this.getUserName() == null || this.getUserName().isBlank()) {
 
