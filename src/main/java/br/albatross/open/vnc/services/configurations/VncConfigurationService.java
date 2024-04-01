@@ -31,5 +31,10 @@ public class VncConfigurationService implements Configuration {
         return credentialsService.getPassword();
 
     }
+    
+    @Override
+    public void clearCredentials() {
+        credentialsService.clear();
+    }
 
 }

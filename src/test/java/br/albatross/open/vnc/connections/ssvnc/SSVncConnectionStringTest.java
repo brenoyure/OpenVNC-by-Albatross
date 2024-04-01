@@ -83,7 +83,26 @@ public class SSVncConnectionStringTest {
 
     /**
      * 
-     * Testa se será gerada corretamente a String de conexão quando o usuário fornece apenas o Host mas o Username em branco (Não Nulo, String vazia).
+     * Testa se será gerada corretamente a String de conexão quando o usuário fornece apenas o Host mas o Username como Nulo via método setter.
+     * 
+     * @author breno.brito
+     */
+    @Test
+    void testaAStringDeConexaoComHostEUsernameComoNuloViaMetodoSetter() {
+
+        connection
+            .setUsername(null);
+
+        String expectedString = 
+                "ssvncviewer -quality 2 -compresslevel 7 -16bpp 10.40.10.100:5900";
+
+        assertEquals(expectedString, connection.getConnectionString());
+
+    }
+
+    /**
+     * 
+     * Testa se será gerada corretamente a String de conexão quando o usuário fornece apenas o Host mas o Username.
      * 
      * @author breno.brito
      */

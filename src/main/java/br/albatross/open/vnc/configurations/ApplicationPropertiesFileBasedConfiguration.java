@@ -75,4 +75,16 @@ public class ApplicationPropertiesFileBasedConfiguration implements ApplicationP
 
     }
 
+    @Override
+    public void clearProperty(String propertyKey) {
+
+        try (OutputStream fos = new BufferedOutputStream(new FileOutputStream(PROPERTIES_FILE))) {
+
+            properties.remove(propertyKey);
+            properties.store(fos, null);
+
+        } catch (IOException ex) { throw new RuntimeException(ex); }
+
+    }
+
 }

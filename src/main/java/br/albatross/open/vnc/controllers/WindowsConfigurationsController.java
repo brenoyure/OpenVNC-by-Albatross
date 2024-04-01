@@ -57,6 +57,11 @@ public class WindowsConfigurationsController implements Initializable {
     private Button backToMainButton;
 
     @FXML
+    private Button limparCredenciaisSalvasButton;
+    
+    private boolean podeLimparAsCredenciaisSalvas = false;
+
+    @FXML
     private Hyperlink githubLink;
 
     private GuiService guiService;    
@@ -75,7 +80,10 @@ public class WindowsConfigurationsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         configuration.getVncDirectory().ifPresent(selectUltraVNCInstallDirTextField::setText);
-        configuration.getUser().ifPresent(usuarioTextField::setText);
+        configuration.getUser().ifPresent(savedUsername -> {
+            usuarioTextField.setText(savedUsername);
+            limparCredenciaisSalvasButton.setDisable(false);
+        });
 
     }
 
@@ -92,6 +100,10 @@ public class WindowsConfigurationsController implements Initializable {
 
         if (!(selectUltraVNCInstallDirTextField.getText() == null || selectUltraVNCInstallDirTextField.getText().isBlank())) {
             configuration.setVncDirectory(selectUltraVNCInstallDirTextField.getText());
+        }
+        
+        if (podeLimparAsCredenciaisSalvas) {
+            configuration.clearCredentials();
         }
 
         JOptionPane.showMessageDialog(null, "Configurações Salvas com Sucesso", null, INFORMATION_MESSAGE);
@@ -147,6 +159,13 @@ public class WindowsConfigurationsController implements Initializable {
     private void githubLinkClicked(ActionEvent event) throws IOException, URISyntaxException {
         guiService.handleGitHubClickEvent(event, usuarioTextField);
         githubLink.setVisited(false);
+    }
+
+    @FXML
+    private void limparCredenciaisSalvas(ActionEvent event) {
+        podeLimparAsCredenciaisSalvas = true;
+        usuarioTextField.clear();
+        saveButton.setDisable(false);
     }
 
 }

@@ -48,6 +48,11 @@ public class ConfigurationsController implements Initializable {
     private Button backToMainButton;
 
     @FXML
+    private Button limparCredenciaisSalvasButton;
+
+    private boolean podeLimparAsCredenciaisSalvas = false;
+
+    @FXML
     private Hyperlink githubLink;
 
     private GuiService guiService;
@@ -69,7 +74,10 @@ public class ConfigurationsController implements Initializable {
         passwordTextField.setDisable(true);
         savePasswordNoAvailableLabel.setVisible(true);
 
-        configuration.getUser().ifPresent(usuarioTextField::setText);
+        configuration.getUser().ifPresent(savedUsername -> {
+            usuarioTextField.setText(savedUsername);
+            limparCredenciaisSalvasButton.setDisable(false);
+        });
 
     }
 
@@ -83,6 +91,10 @@ public class ConfigurationsController implements Initializable {
         if (!(passwordTextField.getText() == null || passwordTextField.getText().isBlank())) {
             configuration.savePassword(passwordTextField.getText());
         }
+
+        if (podeLimparAsCredenciaisSalvas) {
+            configuration.clearCredentials();
+        }        
 
         showMessageDialog(null, "Configurações Salvas com Sucesso", null, INFORMATION_MESSAGE);
         backToMainButton(event);
@@ -111,6 +123,13 @@ public class ConfigurationsController implements Initializable {
     private void githubLinkClicked(ActionEvent event) throws IOException, URISyntaxException {
         guiService.handleGitHubClickEvent(event, usuarioTextField);
         githubLink.setVisited(false);
+    }
+
+    @FXML
+    private void limparCredenciaisSalvas(ActionEvent event) {
+        podeLimparAsCredenciaisSalvas = true;
+        usuarioTextField.clear();
+        saveButton.setDisable(false);
     }
 
 }

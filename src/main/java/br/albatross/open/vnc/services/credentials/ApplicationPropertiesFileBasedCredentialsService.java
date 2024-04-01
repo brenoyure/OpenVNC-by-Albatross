@@ -59,4 +59,10 @@ public final class ApplicationPropertiesFileBasedCredentialsService implements C
 
     }
 
+    @Override
+    public void clear() {
+        properties.clearProperty(CONNECTION_USER);
+        properties.clearProperty(CONNECTION_PASSWORD);
+    }
+
 }

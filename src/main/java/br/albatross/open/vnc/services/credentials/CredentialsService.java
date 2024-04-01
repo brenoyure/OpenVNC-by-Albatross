@@ -10,4 +10,6 @@ public interface CredentialsService {
     Optional<String> getUsername();
     Optional<String> getPassword();
 
+    void clear();
+
 }

@@ -10,4 +10,6 @@ public interface Configuration {
     Optional<String> getUser();
     Optional<String> getPassword();
 
+    void clearCredentials();
+
 }
