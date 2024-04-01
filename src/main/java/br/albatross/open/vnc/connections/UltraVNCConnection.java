@@ -14,7 +14,9 @@ import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguratio
  */
 public final class UltraVNCConnection extends GenericConnection {
 
-	private WindowsSpecificConfiguration configuration;
+    private WindowsSpecificConfiguration configuration;
+
+    private static final String WINDOWS_FILE_SEPARATOR_STRING = "\\";
 
     /**
      * If for some reson the UltraVNC® Connection drops, it will automatically try to
@@ -51,7 +53,7 @@ public final class UltraVNCConnection extends GenericConnection {
         StringBuilder sb = new StringBuilder();
         configuration.getVncDirectory().ifPresent(directoryString -> sb
         		.append(directoryString)
-        		.append(File.separator));
+        		.append(WINDOWS_FILE_SEPARATOR_STRING));
 
         sb
             .append(VNC_CONNECTION_TEMPLATE_STRING)
