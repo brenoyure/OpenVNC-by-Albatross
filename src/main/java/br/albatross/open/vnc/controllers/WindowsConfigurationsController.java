@@ -90,6 +90,10 @@ public class WindowsConfigurationsController implements Initializable {
     @FXML
     private void saveSettings(ActionEvent event) throws IOException {
 
+        if (podeLimparAsCredenciaisSalvas) {
+            configuration.clearCredentials();
+        }
+
         if (!(usuarioTextField.getText() == null || usuarioTextField.getText().isBlank())) {
             configuration.saveUser(usuarioTextField.getText());
         }
@@ -100,10 +104,6 @@ public class WindowsConfigurationsController implements Initializable {
 
         if (!(selectUltraVNCInstallDirTextField.getText() == null || selectUltraVNCInstallDirTextField.getText().isBlank())) {
             configuration.setVncDirectory(selectUltraVNCInstallDirTextField.getText());
-        }
-        
-        if (podeLimparAsCredenciaisSalvas) {
-            configuration.clearCredentials();
         }
 
         JOptionPane.showMessageDialog(null, "Configurações Salvas com Sucesso", null, INFORMATION_MESSAGE);

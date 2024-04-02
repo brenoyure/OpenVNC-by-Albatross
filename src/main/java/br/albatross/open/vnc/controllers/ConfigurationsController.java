@@ -84,6 +84,10 @@ public class ConfigurationsController implements Initializable {
     @FXML
     private void saveSettings(ActionEvent event) throws IOException {
 
+        if (podeLimparAsCredenciaisSalvas) {
+            configuration.clearCredentials();
+        }
+
         if (!(usuarioTextField.getText() == null || usuarioTextField.getText().isBlank())) {
             configuration.saveUser(usuarioTextField.getText());
         }
@@ -91,10 +95,6 @@ public class ConfigurationsController implements Initializable {
         if (!(passwordTextField.getText() == null || passwordTextField.getText().isBlank())) {
             configuration.savePassword(passwordTextField.getText());
         }
-
-        if (podeLimparAsCredenciaisSalvas) {
-            configuration.clearCredentials();
-        }        
 
         showMessageDialog(null, "Configurações Salvas com Sucesso", null, INFORMATION_MESSAGE);
         backToMainButton(event);
