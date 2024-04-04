@@ -15,6 +15,11 @@
             <Font name="Segoe UI" size="30.0" />
          </font>
       </Label>
+      <Label alignment="CENTER" layoutX="370.0" layoutY="114.0" prefHeight="32.0" prefWidth="154.0" style="&#10;" text="Dados da Conexão" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+         <font>
+            <Font name="Segoe UI" size="16.0" />
+         </font>
+      </Label>
       <Label contentDisplay="CENTER" layoutX="132.0" layoutY="163.0" prefHeight="32.0" prefWidth="104.0" text="Usuário:" textAlignment="CENTER">
          <font>
             <Font name="Segoe UI" size="18.0" />
@@ -24,11 +29,6 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label alignment="CENTER" layoutX="370.0" layoutY="114.0" prefHeight="32.0" prefWidth="154.0" style="&#10;" text="Dados da Conexão" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-         <font>
-            <Font name="Segoe UI" size="16.0" />
-         </font>
-      </Label>
       <TextField fx:id="usuarioTextField" layoutX="345.0" layoutY="159.0" onKeyTyped="#onKeyTyped" prefHeight="39.0" prefWidth="218.0">
          <font>
             <Font size="16.0" />
@@ -39,10 +39,9 @@
          </font>
       </PasswordField>
       <Button fx:id="limparCredenciaisSalvasButton" disable="true" layoutX="586.0" layoutY="195.0" mnemonicParsing="false" onAction="#limparCredenciaisSalvas" text="Limpar Credenciais" />
-      <Hyperlink fx:id="githubLink" layoutX="397.0" layoutY="438.0" onAction="#githubLinkClicked" style="-fx-font-style: italic;" text="OpenVNC by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
-      <Label layoutX="709.0" layoutY="420.0" text="2.2 Alpha Build" textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="345.0" layoutY="269.0" prefHeight="32.0" prefWidth="211.0" style="&#10;" text="Configurações do UltraVNC®" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
          <font>
-            <Font name="Segoe UI" size="14.0" />
+            <Font name="Segoe UI" size="16.0" />
          </font>
       </Label>
       <Label fx:id="selectUltraVNCInstallDirLabel" contentDisplay="CENTER" layoutX="132.0" layoutY="312.0" prefHeight="32.0" prefWidth="172.0" text="Pasta do UltraVNC®" textAlignment="CENTER">
@@ -66,9 +65,10 @@
             <Font name="Segoe UI" size="14.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" layoutX="345.0" layoutY="269.0" prefHeight="32.0" prefWidth="211.0" style="&#10;" text="Configurações do UltraVNC®" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+      <Hyperlink fx:id="githubLink" layoutX="397.0" layoutY="438.0" onAction="#githubLinkClicked" style="-fx-font-style: italic;" text="OpenVNC by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
+      <Label layoutX="709.0" layoutY="420.0" text="2.3 Alpha Build" textAlignment="CENTER">
          <font>
-            <Font name="Segoe UI" size="16.0" />
+            <Font name="Segoe UI" size="14.0" />
          </font>
       </Label>
    </children>

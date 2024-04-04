@@ -129,7 +129,9 @@ public class ConfigurationsController implements Initializable {
     private void limparCredenciaisSalvas(ActionEvent event) {
         podeLimparAsCredenciaisSalvas = true;
         usuarioTextField.clear();
+//      passwordTextField.clear(); <-- Campo de Senha ainda não implementado no Linux
         saveButton.setDisable(false);
+        usuarioTextField.requestFocus();
     }
 
 }

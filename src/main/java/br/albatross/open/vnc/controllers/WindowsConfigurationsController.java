@@ -165,7 +165,9 @@ public class WindowsConfigurationsController implements Initializable {
     private void limparCredenciaisSalvas(ActionEvent event) {
         podeLimparAsCredenciaisSalvas = true;
         usuarioTextField.clear();
+        passwordTextField.clear();
         saveButton.setDisable(false);
+        usuarioTextField.requestFocus();
     }
 
 }
