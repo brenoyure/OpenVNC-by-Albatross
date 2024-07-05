@@ -1,5 +1,6 @@
 package br.albatross.open.vnc.controllers;
 
+import static br.albatross.open.vnc.App.executorService;
 import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
 
 import java.io.IOException;
@@ -12,6 +13,8 @@ import br.albatross.open.vnc.configurations.ApplicationProperties;
 import br.albatross.open.vnc.configurations.ApplicationPropertiesFileBasedConfiguration;
 import br.albatross.open.vnc.configurations.AvailableHosts;
 import br.albatross.open.vnc.connections.Connection;
+import br.albatross.open.vnc.runnables.OpenVNCConnectionRunnable;
+import br.albatross.open.vnc.runnables.ShowHintRunnable;
 import br.albatross.open.vnc.services.configurations.Configuration;
 import br.albatross.open.vnc.services.configurations.VncConfigurationService;
 import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguration;
@@ -19,6 +22,8 @@ import br.albatross.open.vnc.services.configurations.WindowsVncConfigurationServ
 import br.albatross.open.vnc.services.credentials.ApplicationPropertiesFileBasedCredentialsService;
 import br.albatross.open.vnc.services.credentials.CredentialsService;
 import br.albatross.open.vnc.services.gui.GuiService;
+import br.albatross.open.vnc.services.hints.HintService;
+import br.albatross.open.vnc.services.hints.HintServiceImpl;
 import br.albatross.open.vnc.starters.ConnectionStarter;
 import br.albatross.open.vnc.starters.VncConnectionStarter;
 import javafx.event.ActionEvent;
@@ -44,7 +49,7 @@ public final class MainController {
     private Button connectBtn;
 
     /**
-     * Represents the github hyperlink in the left conner of the GUI.
+     * Represents the GitHub hyperlink in the left conner of the GUI.
      */
     @FXML
     private Hyperlink githubLink;
@@ -55,9 +60,11 @@ public final class MainController {
     private ConnectionBuilder connectionBuilder;
     private ConnectionStarter connectionStarter;
 
-    private Configuration configuration;
+    private final Configuration configuration;
 
-    private GuiService service;
+    private final GuiService service;
+
+    private final HintService<String> hintService;
 
     public MainController() {
 
@@ -69,6 +76,8 @@ public final class MainController {
         this.configuration = IS_WINDOWS_OS ? 
                 new WindowsVncConfigurationService(applicationProperties, credentialsService) : 
                 new VncConfigurationService(credentialsService);
+
+        hintService = new HintServiceImpl();
 
     }
 
@@ -82,7 +91,7 @@ public final class MainController {
      * @param btnClicked
      */
     @FXML
-    public void connectBtnClicked(ActionEvent btnClicked) {
+    public void connectBtnClicked(ActionEvent btnClicked) throws Exception {
 
     	if (connectionBuilder == null) {
 
@@ -97,10 +106,8 @@ public final class MainController {
 
         Connection connection = connectionBuilder.createConnection(host.getText());
 
-        configuration.getUser().ifPresent(connection::setUsername);
-        configuration.getPassword().ifPresent(connection::setPassword);
-
-        connectionStarter.startConnection(connection);
+        executorService.submit(new ShowHintRunnable(hintService, executorService));
+        executorService.submit(new OpenVNCConnectionRunnable(connection, connectionStarter, configuration)).get();
 
     }
 
@@ -115,7 +122,7 @@ public final class MainController {
      * Redirects the user to the Github Project Creator's page.
      *
      * @param mouseClickEvent when the link gets clicked by the user.
-     * @throws IOException if URI is wrong or inacessible.
+     * @throws IOException if URI is wrong or inaccessible.
      * @throws URISyntaxException if URI os wrong.
      */
     @FXML

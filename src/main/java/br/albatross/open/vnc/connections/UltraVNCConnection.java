@@ -2,8 +2,6 @@ package br.albatross.open.vnc.connections;
 
 import static java.lang.String.format;
 
-import java.io.File;
-
 import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguration;
 
 /**
@@ -14,7 +12,7 @@ import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguratio
  */
 public final class UltraVNCConnection extends GenericConnection {
 
-    private WindowsSpecificConfiguration configuration;
+    private final WindowsSpecificConfiguration configuration;
 
     private static final String WINDOWS_FILE_SEPARATOR_STRING = "\\";
 

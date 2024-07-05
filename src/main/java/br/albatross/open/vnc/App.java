@@ -2,8 +2,10 @@ package br.albatross.open.vnc;
 
 import static br.albatross.open.vnc.configurations.AvailableProperties.APP_ICON_RESOURCE_PATH;
 import static br.albatross.open.vnc.configurations.AvailableProperties.APP_MAIN_WINDOW_TITLE;
+import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,8 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
+    public static final ExecutorService executorService = newCachedThreadPool();
+
     private static Scene scene;
 
     @Override
@@ -28,6 +32,11 @@ public class App extends Application {
         stage.getIcons().add(new Image(APP_ICON_RESOURCE_PATH));
         stage.show();
    }
+
+    @Override
+    public void stop() throws Exception {
+        executorService.shutdown();
+    }
 
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
