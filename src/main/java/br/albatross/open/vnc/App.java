@@ -35,6 +35,7 @@ public class App extends Application {
 
         StringBuilder sb = new StringBuilder();
 
+        sb.append("\n");
         sb.append("######################################\n");
         sb.append("#                                    #\n");
         sb.append("#        ");
