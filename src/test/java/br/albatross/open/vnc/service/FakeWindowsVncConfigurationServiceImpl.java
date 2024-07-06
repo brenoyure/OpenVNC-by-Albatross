@@ -49,4 +49,15 @@ public class FakeWindowsVncConfigurationServiceImpl implements WindowsSpecificCo
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public boolean isShowingHints() {
+        throw new JUnitException("Método não implementado na classe " + this.getClass());
+    }
+
+    @Override
+    public void showHints(boolean trueOrFalse) {
+        throw new JUnitException("Método não implementado na classe " + this.getClass());
+        
+    }
+
 }

@@ -1,14 +1,13 @@
 package br.albatross.open.vnc;
 
-import static br.albatross.open.vnc.configurations.AvailableProperties.*;
+import static br.albatross.open.vnc.configurations.AvailableProperties.APP_ICON_RESOURCE_PATH;
+import static br.albatross.open.vnc.configurations.AvailableProperties.APP_MAIN_WINDOW_TITLE;
+import static br.albatross.open.vnc.configurations.AvailableProperties.DEV_GITHUB_PAGE_LINK;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import br.albatross.open.vnc.configurations.AvailableProperties;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -46,7 +45,7 @@ public class App extends Application {
         sb.append(DEV_GITHUB_PAGE_LINK);
         sb.append("    #\n");
         sb.append("#                                    #\n");
-        sb.append("######################################");
+        sb.append("######################################\n");
 
         System.out.println(sb.toString());
 

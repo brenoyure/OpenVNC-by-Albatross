@@ -1,11 +1,11 @@
 package br.albatross.open.vnc.services.configurations;
 
-import br.albatross.open.vnc.configurations.ApplicationProperties;
-import br.albatross.open.vnc.configurations.AvailableProperties;
-import br.albatross.open.vnc.services.credentials.CredentialsService;
+import static br.albatross.open.vnc.configurations.AvailableProperties.SHOW_HINTS_BEFORE_REMOTE;
+
 import java.util.Optional;
 
-import static br.albatross.open.vnc.configurations.AvailableProperties.SHOW_HINTS_BEFORE_REMOTE;
+import br.albatross.open.vnc.configurations.ApplicationProperties;
+import br.albatross.open.vnc.services.credentials.CredentialsService;
 
 public class VncConfigurationService implements Configuration {
 
