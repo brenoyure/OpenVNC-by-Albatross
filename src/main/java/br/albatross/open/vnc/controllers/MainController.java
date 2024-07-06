@@ -1,11 +1,5 @@
 package br.albatross.open.vnc.controllers;
 
-import static br.albatross.open.vnc.App.executorService;
-import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 import br.albatross.open.vnc.builders.ConnectionBuilder;
 import br.albatross.open.vnc.builders.SsVncConnectionBuilder;
 import br.albatross.open.vnc.builders.UltraVncConnectionBuilder;
@@ -32,6 +26,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import static br.albatross.open.vnc.App.executorService;
+import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
 
 public final class MainController {
 
@@ -75,7 +75,7 @@ public final class MainController {
 
         this.configuration = IS_WINDOWS_OS ? 
                 new WindowsVncConfigurationService(applicationProperties, credentialsService) : 
-                new VncConfigurationService(credentialsService);
+                new VncConfigurationService(credentialsService, applicationProperties);
 
         hintService = new HintServiceImpl();
 
@@ -106,7 +106,10 @@ public final class MainController {
 
         Connection connection = connectionBuilder.createConnection(host.getText());
 
-        executorService.submit(new ShowHintRunnable(hintService, executorService));
+        if (configuration.isShowingHints()) {
+            executorService.submit(new ShowHintRunnable(hintService, executorService));
+        }
+
         executorService.submit(new OpenVNCConnectionRunnable(connection, connectionStarter, configuration)).get();
 
     }

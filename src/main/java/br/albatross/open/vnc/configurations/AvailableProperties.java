@@ -14,4 +14,6 @@ public interface AvailableProperties {
     boolean IS_LINUX_OS   =   System.getProperty("os.name").contains("Linux");
     boolean IS_WINDOWS_OS = !(System.getProperty("os.name").contains("Linux"));
 
+    String SHOW_HINTS_BEFORE_REMOTE = "SHOW_HINTS_BEFORE_REMOTE";
+
 }

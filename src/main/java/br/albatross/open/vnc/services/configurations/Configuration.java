@@ -12,4 +12,8 @@ public interface Configuration {
 
     void clearCredentials();
 
+    boolean isShowingHints();
+
+    void showHints(boolean trueOrFalse);
+
 }

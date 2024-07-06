@@ -1,12 +1,14 @@
 package br.albatross.open.vnc;
 
-import static br.albatross.open.vnc.configurations.AvailableProperties.APP_ICON_RESOURCE_PATH;
-import static br.albatross.open.vnc.configurations.AvailableProperties.APP_MAIN_WINDOW_TITLE;
+import static br.albatross.open.vnc.configurations.AvailableProperties.*;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import br.albatross.open.vnc.configurations.AvailableProperties;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,11 +33,31 @@ public class App extends Application {
         stage.setTitle(APP_MAIN_WINDOW_TITLE);
         stage.getIcons().add(new Image(APP_ICON_RESOURCE_PATH));
         stage.show();
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("######################################\n");
+        sb.append("#                                    #\n");
+        sb.append("#        ");
+        sb.append(APP_MAIN_WINDOW_TITLE);
+        sb.append("        #");
+        sb.append("\n");
+        sb.append("#    ");
+        sb.append(DEV_GITHUB_PAGE_LINK);
+        sb.append("    #\n");
+        sb.append("#                                    #\n");
+        sb.append("######################################");
+
+        System.out.println(sb.toString());
+
    }
 
     @Override
     public void stop() throws Exception {
+        System.out.println("Desligando Thread Pool do ExecutorService...");
         executorService.shutdown();
+        System.out.println("Thread Pool do ExecutorService desligado com sucesso");
+        System.out.println("Encerrando OpenVNC, obrigado por utilizar");
     }
 
     public static void setRoot(String fxml) throws IOException {

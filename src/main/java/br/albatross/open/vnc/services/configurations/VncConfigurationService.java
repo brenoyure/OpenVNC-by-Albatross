@@ -1,14 +1,20 @@
 package br.albatross.open.vnc.services.configurations;
 
+import br.albatross.open.vnc.configurations.ApplicationProperties;
+import br.albatross.open.vnc.configurations.AvailableProperties;
 import br.albatross.open.vnc.services.credentials.CredentialsService;
 import java.util.Optional;
+
+import static br.albatross.open.vnc.configurations.AvailableProperties.SHOW_HINTS_BEFORE_REMOTE;
 
 public class VncConfigurationService implements Configuration {
 
     private final CredentialsService credentialsService;
+    private final ApplicationProperties applicationProperties;
 
-    public VncConfigurationService(CredentialsService credentialsService) {
+    public VncConfigurationService(CredentialsService credentialsService, ApplicationProperties applicationProperties) {
     	this.credentialsService = credentialsService;
+        this.applicationProperties = applicationProperties;
     }
 
     @Override
@@ -35,6 +41,24 @@ public class VncConfigurationService implements Configuration {
     @Override
     public void clearCredentials() {
         credentialsService.clear();
+    }
+
+    @Override
+    public boolean isShowingHints() {
+        Optional<String> showHintOptional = applicationProperties.getProperty(SHOW_HINTS_BEFORE_REMOTE);
+
+        if (showHintOptional.isEmpty()) {
+            applicationProperties.saveProperty(SHOW_HINTS_BEFORE_REMOTE, Boolean.toString(true));
+            return true;
+        }
+
+        return Boolean.parseBoolean(showHintOptional.get());
+
+    }
+
+    @Override
+    public void showHints(boolean trueOrFalse) {
+        applicationProperties.saveProperty(SHOW_HINTS_BEFORE_REMOTE, Boolean.toString(trueOrFalse));
     }
 
 }

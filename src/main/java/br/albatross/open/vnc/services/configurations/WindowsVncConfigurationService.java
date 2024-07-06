@@ -15,7 +15,7 @@ public class WindowsVncConfigurationService extends VncConfigurationService impl
     private final ApplicationProperties applicationProperties;
 
     public WindowsVncConfigurationService(ApplicationProperties applicationProperties, CredentialsService credentialsService) {
-        super(credentialsService);
+        super(credentialsService, applicationProperties);
         this.applicationProperties = applicationProperties;
     }
 

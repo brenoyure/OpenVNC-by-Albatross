@@ -55,15 +55,15 @@ public class ConfigurationsController implements Initializable {
     @FXML
     private Hyperlink githubLink;
 
-    private GuiService guiService;
+    private final GuiService guiService;
 
-    private Configuration configuration;
+    private final Configuration configuration;
 
     public ConfigurationsController() {
 
     	ApplicationProperties applicationProperties = new ApplicationPropertiesFileBasedConfiguration();
     	CredentialsService credentialsService       = new ApplicationPropertiesFileBasedCredentialsService(applicationProperties);
-    	this.configuration                          = new VncConfigurationService(credentialsService);
+    	this.configuration                          = new VncConfigurationService(credentialsService, applicationProperties);
     	this.guiService                             = new GuiService();
 
     }
