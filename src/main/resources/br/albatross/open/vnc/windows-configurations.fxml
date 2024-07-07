@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -8,53 +9,58 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.controllers.WindowsConfigurationsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.controllers.WindowsConfigurationsController">
    <children>
       <Label alignment="CENTER" layoutX="348.0" layoutY="35.0" prefHeight="61.0" prefWidth="218.0" style="&#10;" text="Configurações" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
          <font>
             <Font name="Segoe UI" size="30.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="370.0" layoutY="114.0" prefHeight="32.0" prefWidth="154.0" style="&#10;" text="Dados da Conexão" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+      <Label alignment="CENTER" layoutX="370.0" layoutY="97.0" prefHeight="32.0" prefWidth="154.0" style="&#10;" text="Dados da Conexão" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
          <font>
             <Font name="Segoe UI" size="16.0" />
          </font>
       </Label>
-      <Label contentDisplay="CENTER" layoutX="132.0" layoutY="163.0" prefHeight="32.0" prefWidth="104.0" text="Usuário:" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" layoutX="132.0" layoutY="146.0" prefHeight="32.0" prefWidth="104.0" text="Usuário:" textAlignment="CENTER">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="passwordLabel" contentDisplay="CENTER" layoutX="132.0" layoutY="220.0" prefHeight="32.0" prefWidth="118.0" text="Nova Senha:" textAlignment="CENTER">
+      <Label fx:id="passwordLabel" contentDisplay="CENTER" layoutX="132.0" layoutY="203.0" prefHeight="32.0" prefWidth="118.0" text="Nova Senha:" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <TextField fx:id="usuarioTextField" layoutX="345.0" layoutY="159.0" onKeyTyped="#onKeyTyped" prefHeight="39.0" prefWidth="218.0">
+      <Label fx:id="exibirDicasLabel" contentDisplay="CENTER" layoutX="132.0" layoutY="253.0" prefHeight="32.0" prefWidth="118.0" text="Exibir Dicas: " textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usuarioTextField" layoutX="344.0" layoutY="142.0" onKeyTyped="#onKeyTyped" prefHeight="39.0" prefWidth="218.0">
          <font>
             <Font size="16.0" />
          </font></TextField>
-      <PasswordField fx:id="passwordTextField" layoutX="344.0" layoutY="216.0" onKeyTyped="#onKeyTyped" prefHeight="39.0" prefWidth="218.0">
+      <PasswordField fx:id="passwordTextField" layoutX="344.0" layoutY="199.0" onKeyTyped="#onKeyTyped" prefHeight="39.0" prefWidth="218.0">
          <font>
             <Font size="16.0" />
          </font>
       </PasswordField>
-      <Button fx:id="limparCredenciaisSalvasButton" disable="true" layoutX="586.0" layoutY="195.0" mnemonicParsing="false" onAction="#limparCredenciaisSalvas" text="Limpar Credenciais" />
-      <Label alignment="CENTER" layoutX="345.0" layoutY="269.0" prefHeight="32.0" prefWidth="211.0" style="&#10;" text="Configurações do UltraVNC®" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+      <Button fx:id="limparCredenciaisSalvasButton" disable="true" layoutX="586.0" layoutY="178.0" mnemonicParsing="false" onAction="#limparCredenciaisSalvas" text="Limpar Credenciais" />
+      <Label alignment="CENTER" layoutX="345.0" layoutY="279.0" prefHeight="32.0" prefWidth="211.0" style="&#10;" text="Configurações do UltraVNC®" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
          <font>
             <Font name="Segoe UI" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="selectUltraVNCInstallDirLabel" contentDisplay="CENTER" layoutX="132.0" layoutY="312.0" prefHeight="32.0" prefWidth="172.0" text="Pasta do UltraVNC®" textAlignment="CENTER">
+      <Label fx:id="selectUltraVNCInstallDirLabel" contentDisplay="CENTER" layoutX="132.0" layoutY="322.0" prefHeight="32.0" prefWidth="172.0" text="Pasta do UltraVNC®" textAlignment="CENTER">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="selectUltraVNCInstallDirTextField" layoutX="344.0" layoutY="310.0" onMouseClicked="#selectUltraVNCInstallDir" prefHeight="39.0" prefWidth="218.0">
+      <TextField fx:id="selectUltraVNCInstallDirTextField" layoutX="344.0" layoutY="320.0" onMouseClicked="#selectUltraVNCInstallDir" prefHeight="39.0" prefWidth="218.0">
          <font>
             <Font size="12.0" />
          </font>
       </TextField>
-      <Button fx:id="autoDetectUltraVNCInstallDirButton" layoutX="586.0" layoutY="317.0" mnemonicParsing="false" onAction="#autoDetectUltraVNCInstallDir" text="Auto-Detectar" />
+      <Button fx:id="autoDetectUltraVNCInstallDirButton" layoutX="586.0" layoutY="327.0" mnemonicParsing="false" onAction="#autoDetectUltraVNCInstallDir" text="Auto-Detectar" />
       <Button fx:id="saveButton" accessibleRole="CHECK_BOX" defaultButton="true" disable="true" layoutX="318.0" layoutY="381.0" mnemonicParsing="false" onAction="#saveSettings" prefHeight="39.0" prefWidth="104.0" text="Salvar">
          <font>
             <Font name="Segoe UI" size="14.0" />
@@ -71,5 +77,6 @@
             <Font name="Segoe UI" size="14.0" />
          </font>
       </Label>
+      <CheckBox fx:id="toggleHintsButton" layoutX="345.0" layoutY="253.0" mnemonicParsing="false" onAction="#toggleHints" prefHeight="32.0" prefWidth="18.0" />
    </children>
 </AnchorPane>

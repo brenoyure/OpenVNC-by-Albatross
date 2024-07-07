@@ -22,6 +22,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -68,6 +69,12 @@ public class WindowsConfigurationsController implements Initializable {
 
     private WindowsSpecificConfiguration configuration;
 
+    @FXML
+    private Label exibirDicasLabel;
+
+    @FXML
+    private CheckBox toggleHintsButton;
+
     public WindowsConfigurationsController() {
 
     	ApplicationProperties applicationProperties = new ApplicationPropertiesFileBasedConfiguration();
@@ -84,6 +91,8 @@ public class WindowsConfigurationsController implements Initializable {
             usuarioTextField.setText(savedUsername);
             limparCredenciaisSalvasButton.setDisable(false);
         });
+
+        toggleHintsButton.setSelected(configuration.isShowingHints());
 
     }
 
@@ -105,6 +114,8 @@ public class WindowsConfigurationsController implements Initializable {
         if (!(selectUltraVNCInstallDirTextField.getText() == null || selectUltraVNCInstallDirTextField.getText().isBlank())) {
             configuration.setVncDirectory(selectUltraVNCInstallDirTextField.getText());
         }
+
+        configuration.showHints(toggleHintsButton.isSelected());
 
         JOptionPane.showMessageDialog(null, "Configurações Salvas com Sucesso", null, INFORMATION_MESSAGE);
         backToMainButton(event);
@@ -168,6 +179,20 @@ public class WindowsConfigurationsController implements Initializable {
         passwordTextField.clear();
         saveButton.setDisable(false);
         usuarioTextField.requestFocus();
+    }
+
+    @FXML
+    private void toggleHints(ActionEvent event) {
+
+        if (toggleHintsButton.isSelected()) {
+            JOptionPane.showMessageDialog(null, 
+                    "O OpenVNC exibirá dicas enquanto a conexão remota não é aceita pelo usuário", 
+                    "Dicas do OpenVNC", 
+                    INFORMATION_MESSAGE);
+        }        
+
+        saveButton.setDisable(false);
+
     }
 
 }
