@@ -1,7 +1,5 @@
 package br.albatross.open.vnc.releases.runnables;
 
-import static br.albatross.open.vnc.configurations.AvailableProperties.GITHUB_RELEASE_NAME;
-
 import java.util.concurrent.ExecutorService;
 
 import br.albatross.open.vnc.releases.model.Release;
@@ -33,17 +31,17 @@ public class AutoCheckForUpdates implements Runnable {
 
             System.out.println("Verificando se há atualizações...");
 
-            Release release = releasesService.getTheLatestStable().get();
-            boolean isNotUpdated = !release.getName().equalsIgnoreCase(GITHUB_RELEASE_NAME);
+            if (!releasesService.isTheCurrentReleaseUpdated()) {
 
-            if (isNotUpdated) {
+                Release release = releasesService.getTheLatestStable().get();
                 executorService.submit(new ShowAlertIfUpdateIsAvaliableRunnable(release));
                 System.out.println("Nova Versão do OpenVNC está disponível");
                 System.out.println("Visite " + release.getUrl());
                 return;
+
             }
 
-            System.out.println("OpenVNC já está atualizado: " + release.getName());
+            System.out.println("OpenVNC já está atualizado");
 
         }
 

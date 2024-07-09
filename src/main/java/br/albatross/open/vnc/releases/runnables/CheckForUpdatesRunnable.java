@@ -1,7 +1,5 @@
 package br.albatross.open.vnc.releases.runnables;
 
-import static br.albatross.open.vnc.configurations.AvailableProperties.GITHUB_RELEASE_NAME;
-
 import java.util.concurrent.ExecutorService;
 
 import br.albatross.open.vnc.releases.model.Release;
@@ -21,7 +19,7 @@ public class CheckForUpdatesRunnable implements Runnable {
     public void run() {
 
         Release release = releasesService.getTheLatestStable().get();
-        boolean isUpdated = release.getName().equalsIgnoreCase(GITHUB_RELEASE_NAME);
+        boolean isUpdated = releasesService.isTheCurrentReleaseUpdated();
 
         if (!isUpdated) {
             executorService.submit(new ShowAlertIfUpdateIsAvaliableRunnable(release));

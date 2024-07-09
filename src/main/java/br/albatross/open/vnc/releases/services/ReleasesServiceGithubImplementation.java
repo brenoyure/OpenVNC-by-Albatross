@@ -157,13 +157,14 @@ public class ReleasesServiceGithubImplementation implements ReleasesService {
                     releases.add(new Release(id, name, url, branch, description, publishedAt));
                 });
 
-                Optional<Release> releaseOptional = releases
+                Release release = releases
                         .stream()
                         .filter(r -> r.getBranch().equalsIgnoreCase("main"))
                         .sorted((r1, r2) -> r2.getPublishedAt().compareTo(r1.getPublishedAt()))
-                        .findFirst();
+                        .findFirst()
+                        .get();
 
-                return releaseOptional.get().getName().equalsIgnoreCase(GITHUB_RELEASE_NAME);
+                return release.getName().equalsIgnoreCase(GITHUB_RELEASE_NAME) && release.getBranch().equalsIgnoreCase("main");
 
             }
 
