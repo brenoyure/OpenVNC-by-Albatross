@@ -82,6 +82,12 @@ public class WindowsConfigurationsController implements Initializable {
         configuration.getVncDirectory().ifPresent(selectUltraVNCInstallDirTextField::setText);
         configuration.getUser().ifPresent(savedUsername -> {
             usuarioTextField.setText(savedUsername);
+            usuarioTextField.requestFocus();
+
+            for (int i = 0; i < usuarioTextField.lengthProperty().get(); i++) {
+                usuarioTextField.forward();
+            }
+
             limparCredenciaisSalvasButton.setDisable(false);
         });
 
