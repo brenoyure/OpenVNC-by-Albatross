@@ -1,23 +1,14 @@
 package br.albatross.open.vnc.controllers;
 
 import br.albatross.open.vnc.builders.ConnectionBuilder;
-import br.albatross.open.vnc.builders.ConnectionBuilders;
-import br.albatross.open.vnc.builders.SsVncConnectionBuilder;
-import br.albatross.open.vnc.builders.UltraVncConnectionBuilder;
-import br.albatross.open.vnc.configurations.ApplicationProperties;
-import br.albatross.open.vnc.configurations.ApplicationPropertiesFileBasedConfiguration;
 import br.albatross.open.vnc.configurations.AvailableHosts;
 import br.albatross.open.vnc.connections.Connection;
 import br.albatross.open.vnc.runnables.OpenVNCConnectionRunnable;
 import br.albatross.open.vnc.runnables.ShowHintRunnable;
 import br.albatross.open.vnc.services.configurations.*;
-import br.albatross.open.vnc.services.credentials.ApplicationPropertiesFileBasedCredentialsService;
-import br.albatross.open.vnc.services.credentials.CredentialsService;
 import br.albatross.open.vnc.services.gui.GuiService;
 import br.albatross.open.vnc.services.hints.HintService;
 import br.albatross.open.vnc.services.hints.HintServiceImpl;
-import br.albatross.open.vnc.starters.ConnectionStarter;
-import br.albatross.open.vnc.starters.VncConnectionStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
