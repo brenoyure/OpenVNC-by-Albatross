@@ -6,7 +6,7 @@ import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguratio
 
 public class UltraVncConnectionBuilder implements ConnectionBuilder {
 
-    private WindowsSpecificConfiguration configuration;
+    private final WindowsSpecificConfiguration configuration;
 
     public UltraVncConnectionBuilder(WindowsSpecificConfiguration configuration) {
 

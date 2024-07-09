@@ -7,12 +7,10 @@ import br.albatross.open.vnc.starters.ConnectionStarter;
 public class OpenVNCConnectionRunnable implements Runnable {
 
     private final Connection connection;
-    private final ConnectionStarter connectionStarter;
     private final Configuration configuration;
 
-    public OpenVNCConnectionRunnable(Connection connection, ConnectionStarter connectionStarter, Configuration configuration) {
+    public OpenVNCConnectionRunnable(Connection connection, Configuration configuration) {
         this.connection = connection;
-        this.connectionStarter = connectionStarter;
         this.configuration = configuration;
     }
 
@@ -22,7 +20,7 @@ public class OpenVNCConnectionRunnable implements Runnable {
         configuration.getUser().ifPresent(connection::setUsername);
         configuration.getPassword().ifPresent(connection::setPassword);
 
-        connectionStarter.startConnection(connection);
+        connection.start();
 
     }
 

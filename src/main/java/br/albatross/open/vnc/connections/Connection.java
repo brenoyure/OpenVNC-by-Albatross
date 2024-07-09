@@ -15,4 +15,6 @@ public interface Connection {
 
     String getConnectionString();
 
+    void start();
+
 }

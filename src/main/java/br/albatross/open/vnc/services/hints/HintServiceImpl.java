@@ -1,8 +1,12 @@
 package br.albatross.open.vnc.services.hints;
 
+import br.albatross.open.vnc.configurations.AvailableProperties;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
 
 public class HintServiceImpl implements HintService<String> {
 
@@ -15,6 +19,11 @@ public class HintServiceImpl implements HintService<String> {
 
         hints.put(2,
                 "O OpenVNC utiliza os softwares (Viewers) UltraVNC® e o SSVNC para funcionar corretamente");
+
+        if (IS_WINDOWS_OS) {
+            hints.put(3,
+                    "O UltraVNC® Viewer possui suporte a opção de exibir os vários monitores do usuário remoto");
+        }
 
     }
 

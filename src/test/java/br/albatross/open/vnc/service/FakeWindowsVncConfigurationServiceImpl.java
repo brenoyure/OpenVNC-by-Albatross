@@ -60,4 +60,14 @@ public class FakeWindowsVncConfigurationServiceImpl implements WindowsSpecificCo
         
     }
 
+    @Override
+    public boolean isCheckForUpdatesEnabledAtStartUp() {
+        return false;
+    }
+
+    @Override
+    public void setToCheckForUpdatesAtStartUpOrNot(boolean trueOrFalse) {
+
+    }
+
 }

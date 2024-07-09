@@ -1,6 +1,7 @@
 package br.albatross.open.vnc.controllers;
 
 import br.albatross.open.vnc.builders.ConnectionBuilder;
+import br.albatross.open.vnc.builders.ConnectionBuilders;
 import br.albatross.open.vnc.builders.SsVncConnectionBuilder;
 import br.albatross.open.vnc.builders.UltraVncConnectionBuilder;
 import br.albatross.open.vnc.configurations.ApplicationProperties;
@@ -9,10 +10,7 @@ import br.albatross.open.vnc.configurations.AvailableHosts;
 import br.albatross.open.vnc.connections.Connection;
 import br.albatross.open.vnc.runnables.OpenVNCConnectionRunnable;
 import br.albatross.open.vnc.runnables.ShowHintRunnable;
-import br.albatross.open.vnc.services.configurations.Configuration;
-import br.albatross.open.vnc.services.configurations.VncConfigurationService;
-import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguration;
-import br.albatross.open.vnc.services.configurations.WindowsVncConfigurationService;
+import br.albatross.open.vnc.services.configurations.*;
 import br.albatross.open.vnc.services.credentials.ApplicationPropertiesFileBasedCredentialsService;
 import br.albatross.open.vnc.services.credentials.CredentialsService;
 import br.albatross.open.vnc.services.gui.GuiService;
@@ -31,7 +29,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import static br.albatross.open.vnc.App.executorService;
+import static br.albatross.open.vnc.builders.ConnectionBuilders.*;
 import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
+import static br.albatross.open.vnc.services.configurations.Configurations.getInstance;
+import static br.albatross.open.vnc.services.configurations.Configurations.getWindowsSpecificInstance;
 
 public final class MainController {
 
@@ -58,7 +59,6 @@ public final class MainController {
     private Hyperlink changePasswordLink;
 
     private ConnectionBuilder connectionBuilder;
-    private ConnectionStarter connectionStarter;
 
     private final Configuration configuration;
 
@@ -70,12 +70,9 @@ public final class MainController {
 
         service = new GuiService();
 
-        ApplicationProperties applicationProperties = new ApplicationPropertiesFileBasedConfiguration();
-        CredentialsService credentialsService       = new ApplicationPropertiesFileBasedCredentialsService(applicationProperties);
-
-        this.configuration = IS_WINDOWS_OS ? 
-                new WindowsVncConfigurationService(applicationProperties, credentialsService) : 
-                new VncConfigurationService(credentialsService, applicationProperties);
+        this.configuration = IS_WINDOWS_OS ?
+                getWindowsSpecificInstance() :
+                getInstance();
 
         hintService = new HintServiceImpl();
 
@@ -95,14 +92,9 @@ public final class MainController {
 
     	if (connectionBuilder == null) {
 
-            this.connectionBuilder = (IS_WINDOWS_OS) ? 
-                new UltraVncConnectionBuilder((WindowsSpecificConfiguration) configuration) :
-                new SsVncConnectionBuilder();
-    	}
+            connectionBuilder = newInstance();
 
-        if (connectionStarter == null) {
-            connectionStarter = new VncConnectionStarter();
-        }
+    	}
 
         Connection connection = connectionBuilder.createConnection(host.getText());
 
@@ -110,7 +102,10 @@ public final class MainController {
             executorService.submit(new ShowHintRunnable(hintService, executorService));
         }
 
-        executorService.submit(new OpenVNCConnectionRunnable(connection, connectionStarter, configuration)).get();
+        executorService.submit(new OpenVNCConnectionRunnable(connection, configuration)).get();
+
+        host.requestFocus();
+        host.forward();
 
     }
 
