@@ -5,8 +5,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import static br.albatross.open.vnc.configurations.AvailableProperties.APP_ICON_RESOURCE_PATH;
-
 public abstract class Alerts {
 
     private Alerts() {

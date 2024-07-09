@@ -1,12 +1,10 @@
 package br.albatross.open.vnc.services.hints;
 
-import br.albatross.open.vnc.configurations.AvailableProperties;
+import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
 
 public class HintServiceImpl implements HintService<String> {
 

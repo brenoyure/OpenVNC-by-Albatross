@@ -2,7 +2,6 @@ package br.albatross.open.vnc.runnables;
 
 import br.albatross.open.vnc.connections.Connection;
 import br.albatross.open.vnc.services.configurations.Configuration;
-import br.albatross.open.vnc.starters.ConnectionStarter;
 
 public class OpenVNCConnectionRunnable implements Runnable {
 
