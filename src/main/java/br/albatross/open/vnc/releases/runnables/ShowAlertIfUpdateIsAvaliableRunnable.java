@@ -5,17 +5,18 @@ import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOW
 import static java.awt.Desktop.getDesktop;
 import static java.lang.Runtime.getRuntime;
 
-import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 
-import br.albatross.open.vnc.configurations.AvailableProperties;
 import br.albatross.open.vnc.releases.model.Release;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 public class ShowAlertIfUpdateIsAvaliableRunnable implements Runnable {
@@ -41,7 +42,23 @@ public class ShowAlertIfUpdateIsAvaliableRunnable implements Runnable {
 
             alert.setTitle("Nova Versão do OpenVNC está disponível");
             alert.setHeaderText("Nova Versão do OpenVNC está disponível");
-            alert.setContentText(release.getDescription());
+
+            TextArea textArea = new TextArea(release.getDescription());
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(textArea, 0, 1);
+
+            // Set expandable Exception into the dialog pane.
+            alert.getDialogPane().setExpandableContent(expContent);
+
             alert.showAndWait().ifPresent(b -> {
                 if (b.equals(ButtonType.OK)) {
                     try {
