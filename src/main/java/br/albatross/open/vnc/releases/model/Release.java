@@ -1,39 +1,33 @@
 package br.albatross.open.vnc.releases.model;
 
-import java.time.LocalDateTime;
-
-import jakarta.json.JsonValue;
 import jakarta.json.bind.annotation.JsonbProperty;
 
+import java.time.LocalDateTime;
+
 /**
- * 
  * Representa os dados básicos de um Release na API do github.
- * 
+ *
  * @author breno.brito
  */
-public class Release implements JsonValue {
+public class Release {
 
     @JsonbProperty("id")
-    private long id;
+    private final long id;
 
     @JsonbProperty("name")
-    private String name;
+    private final String name;
 
     @JsonbProperty("html_url")
-    private String url;
+    private final String url;
 
     @JsonbProperty("target_commitish")
-    private String branch;
+    private final String branch;
 
     @JsonbProperty("body")
-    private String description;
+    private final String description;
 
     @JsonbProperty("published_at")
-    private LocalDateTime publishedAt;
-
-    public Release() {
-
-    }
+    private final LocalDateTime publishedAt;
 
     public Release(long id, String name, String url, String branch, String description, LocalDateTime publishedAt) {
         this.id = id;
@@ -67,10 +61,4 @@ public class Release implements JsonValue {
     public LocalDateTime getPublishedAt() {
         return publishedAt;
     }
-
-    @Override
-    public ValueType getValueType() {
-        return ValueType.OBJECT;
-    }
-
 }

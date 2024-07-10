@@ -16,7 +16,7 @@ public interface AvailableProperties {
 
     String SHOW_HINTS_BEFORE_REMOTE = "SHOW_HINTS_BEFORE_REMOTE";
 
-    String GITHUB_RELEASE_NAME      = "2.7 OpenVNC - Release";
+    String GITHUB_RELEASE_NAME      = "2.8 OpenVNC - Release";
 
     String CHECK_FOR_UPDATES_AT_STARTUP = "CHECK_FOR_UPDATES_AT_STARTUP";
 

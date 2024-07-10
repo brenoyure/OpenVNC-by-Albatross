@@ -17,7 +17,7 @@ public class ShowHintRunnable implements Runnable {
     private final HintService<String> hintService;
     private final ExecutorService executorService;
 
-    private static final byte CLOSE_HINT_SECONDS_DELAY = 15;
+    private static final byte CLOSE_HINT_SECONDS_DELAY = 10;
 
     public ShowHintRunnable(HintService<String> hintService, ExecutorService executorService) {
         this.hintService = hintService;
