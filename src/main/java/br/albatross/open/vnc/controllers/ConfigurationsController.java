@@ -1,8 +1,9 @@
 package br.albatross.open.vnc.controllers;
 
 import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
-import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import static javax.swing.JOptionPane.showMessageDialog;
+import static br.albatross.open.vnc.services.Alerts.newInstance;
+
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -10,17 +11,20 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import br.albatross.open.vnc.App;
-import br.albatross.open.vnc.configurations.ApplicationProperties;
-import br.albatross.open.vnc.configurations.ApplicationPropertiesFileBasedConfiguration;
+import br.albatross.open.vnc.releases.runnables.CheckForUpdatesRunnable;
+import br.albatross.open.vnc.releases.services.ReleasesServiceGithubImplementation;
+
 import br.albatross.open.vnc.services.configurations.Configuration;
-import br.albatross.open.vnc.services.configurations.VncConfigurationService;
-import br.albatross.open.vnc.services.credentials.ApplicationPropertiesFileBasedCredentialsService;
-import br.albatross.open.vnc.services.credentials.CredentialsService;
+import br.albatross.open.vnc.services.configurations.Configurations;
 import br.albatross.open.vnc.services.gui.GuiService;
+import java.util.concurrent.ExecutorService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -59,12 +63,19 @@ public class ConfigurationsController implements Initializable {
 
     private final Configuration configuration;
 
+    @FXML
+    private Label exibirDicasLabel;
+
+    @FXML
+    private CheckBox toggleHintsButton;
+
+    @FXML
+    private CheckBox toggleAutoUpdates;
+
     public ConfigurationsController() {
 
-    	ApplicationProperties applicationProperties = new ApplicationPropertiesFileBasedConfiguration();
-    	CredentialsService credentialsService       = new ApplicationPropertiesFileBasedCredentialsService(applicationProperties);
-    	this.configuration                          = new VncConfigurationService(credentialsService, applicationProperties);
-    	this.guiService                             = new GuiService();
+    	this.configuration = Configurations.getInstance();
+    	this.guiService = new GuiService();
 
     }
 
@@ -76,8 +87,15 @@ public class ConfigurationsController implements Initializable {
 
         configuration.getUser().ifPresent(savedUsername -> {
             usuarioTextField.setText(savedUsername);
+            usuarioTextField.requestFocus();
+            for (int i = 0; i < usuarioTextField.lengthProperty().get(); i++) {
+                usuarioTextField.forward();
+            }
             limparCredenciaisSalvasButton.setDisable(false);
         });
+
+        toggleHintsButton.setSelected(configuration.isShowingHints());
+        toggleAutoUpdates.setSelected(configuration.isCheckForUpdatesEnabledAtStartUp());
 
     }
 
@@ -96,8 +114,26 @@ public class ConfigurationsController implements Initializable {
             configuration.savePassword(passwordTextField.getText());
         }
 
-        showMessageDialog(null, "Configurações Salvas com Sucesso", null, INFORMATION_MESSAGE);
+        configuration.showHints(toggleHintsButton.isSelected());
+        configuration.setToCheckForUpdatesAtStartUpOrNot(toggleAutoUpdates.isSelected());        
+
+        Alert alert = newInstance(
+                INFORMATION,
+                "Configurações Salvas",
+                "Configurações Salvas com Sucesso");
+        alert
+                .getButtonTypes()
+                .removeIf(b -> b.equals(ButtonType.CANCEL));
+
+        alert.show();
+
+//        JOptionPane.showMessageDialog(null, "Configurações Salvas com Sucesso", null, INFORMATION_MESSAGE);
+
         backToMainButton(event);
+
+        if (toggleAutoUpdates.isSelected()) {
+            manualCheckForUpdates(event);
+        }
 
     }
 
@@ -132,6 +168,74 @@ public class ConfigurationsController implements Initializable {
 //      passwordTextField.clear(); <-- Campo de Senha ainda não implementado no Linux
         saveButton.setDisable(false);
         usuarioTextField.requestFocus();
+    }
+
+    @FXML
+    private void toggleHints(ActionEvent event) {
+
+        if (toggleHintsButton.isSelected()) {
+
+            Alert alert = newInstance(
+                    INFORMATION,
+                    "Dicas do OpenVNC",
+                    "Dicas do OpenVNC",
+                    "O OpenVNC poderá exibir dicas enquanto a conexão remota não é aceita pelo usuário");
+            alert.getButtonTypes().removeIf(b -> b.equals(ButtonType.CANCEL));
+
+            alert.show();
+
+            /*
+
+            JOptionPane.showMessageDialog(null, 
+                    "O OpenVNC exibirá dicas enquanto a conexão remota não é aceita pelo usuário", 
+                    "Dicas do OpenVNC", 
+                    INFORMATION_MESSAGE);
+
+             */
+        }        
+
+        saveButton.setDisable(false);
+
+    }
+
+    @FXML
+    private void toggleAutoUpdates(ActionEvent event) {
+
+        if (toggleAutoUpdates.isSelected()) {
+            
+            Alert alert = newInstance(
+                    INFORMATION,
+                    "Atualizações do OpenVNC",
+                    "Atualizações do OpenVNC",
+                    "O OpenVNC poderá verificar se há atualizações disponíveis, segundos após iniciar o aplicativo");
+            alert.getButtonTypes().removeIf(b -> b.equals(ButtonType.CANCEL));
+
+            alert.show();
+
+            /*
+
+            JOptionPane.showMessageDialog(null, 
+                    "O OpenVNC exibirá dicas enquanto a conexão remota não é aceita pelo usuário", 
+                    "Dicas do OpenVNC", 
+                    INFORMATION_MESSAGE);
+
+             */
+        }
+
+        saveButton.setDisable(false);
+            
+        
+    }
+
+    @FXML
+    private void manualCheckForUpdates(ActionEvent event) {
+
+        ExecutorService executorService = App.executorService;
+        executorService.submit(new CheckForUpdatesRunnable(executorService, new ReleasesServiceGithubImplementation()));
+
+        usuarioTextField.requestFocus();
+        usuarioTextField.forward();
+
     }
 
 }
