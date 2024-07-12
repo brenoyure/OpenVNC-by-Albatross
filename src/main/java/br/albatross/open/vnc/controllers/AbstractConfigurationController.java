@@ -184,6 +184,40 @@ public abstract class AbstractConfigurationController implements Initializable {
 
     }
 
-    protected abstract void saveSettings(ActionEvent event) throws IOException;
+    @FXML
+    protected void saveSettings(ActionEvent event) throws IOException {
+
+        if (podeLimparAsCredenciaisSalvas) {
+            configuration.clearCredentials();
+        }
+
+        if (!(usuarioTextField.getText() == null || usuarioTextField.getText().isBlank())) {
+            configuration.saveUser(usuarioTextField.getText());
+        }
+
+        if (!(passwordTextField.getText() == null || passwordTextField.getText().isBlank())) {
+            configuration.savePassword(passwordTextField.getText());
+        }
+
+        configuration.showHints(toggleHintsButton.isSelected());
+        configuration.setToCheckForUpdatesAtStartUpOrNot(toggleAutoUpdates.isSelected());
+
+        Alert alert = newInstance(
+                INFORMATION,
+                "Configurações Salvas",
+                "Configurações Salvas com Sucesso");
+        alert
+                .getButtonTypes()
+                .removeIf(b -> b.equals(ButtonType.CANCEL));
+
+        alert.show();
+
+        backToMainButton(event);
+
+        if (toggleAutoUpdates.isSelected()) {
+            manualCheckForUpdates(event);
+        }
+
+    }
 
 }

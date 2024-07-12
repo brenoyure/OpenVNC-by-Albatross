@@ -51,48 +51,6 @@ public class WindowsConfigurationsController extends AbstractConfigurationContro
     }
 
     @FXML
-    protected void saveSettings(ActionEvent event) throws IOException {
-
-        if (podeLimparAsCredenciaisSalvas) {
-            configuration.clearCredentials();
-        }
-
-        if (!(usuarioTextField.getText() == null || usuarioTextField.getText().isBlank())) {
-            configuration.saveUser(usuarioTextField.getText());
-        }
-
-        if (!(passwordTextField.getText() == null || passwordTextField.getText().isBlank())) {
-            configuration.savePassword(passwordTextField.getText());
-        }
-
-        if (!(selectUltraVNCInstallDirTextField.getText() == null || selectUltraVNCInstallDirTextField.getText().isBlank())) {
-            configuration.setVncDirectory(selectUltraVNCInstallDirTextField.getText());
-        }
-
-        configuration.showHints(toggleHintsButton.isSelected());
-        configuration.setToCheckForUpdatesAtStartUpOrNot(toggleAutoUpdates.isSelected());
-
-        Alert alert = newInstance(
-                INFORMATION,
-                "Configurações Salvas",
-                "Configurações Salvas com Sucesso");
-        alert
-                .getButtonTypes()
-                .removeIf(b -> b.equals(ButtonType.CANCEL));
-
-        alert.show();
-
-//        JOptionPane.showMessageDialog(null, "Configurações Salvas com Sucesso", null, INFORMATION_MESSAGE);
-
-        backToMainButton(event);
-
-        if (toggleAutoUpdates.isSelected()) {
-            manualCheckForUpdates(event);
-        }
-
-    }
-
-    @FXML
     protected void selectUltraVNCInstallDir(MouseEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(null);
@@ -126,6 +84,17 @@ public class WindowsConfigurationsController extends AbstractConfigurationContro
             
 //            JOptionPane.showMessageDialog(null, "Clique no campo de texto, a esquerda, e procure pela pasta em que está localizado, o .exe do UltraVNC® Viewer.", "Pasta do UltraVNC® Viewer não encontrada", JOptionPane.WARNING_MESSAGE);
         });
+
+    }
+
+    @FXML
+    protected void saveSettings(ActionEvent event) throws IOException {
+
+        if (!(selectUltraVNCInstallDirTextField.getText() == null || selectUltraVNCInstallDirTextField.getText().isBlank())) {
+            configuration.setVncDirectory(selectUltraVNCInstallDirTextField.getText());
+        }
+
+        super.saveSettings(event);
 
     }
 
