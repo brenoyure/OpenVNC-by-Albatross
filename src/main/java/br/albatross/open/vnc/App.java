@@ -2,6 +2,9 @@ package br.albatross.open.vnc;
 
 import br.albatross.open.vnc.runnables.StartUpRoutinesRunnable;
 import br.albatross.open.vnc.services.configurations.Configurations;
+import jakarta.enterprise.inject.se.SeContainer;
+import jakarta.enterprise.inject.se.SeContainerInitializer;
+import jakarta.inject.Inject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,14 +25,23 @@ import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
  * JavaFX App
  */
 public class App extends Application {
-
     public static final ExecutorService executorService = newCachedThreadPool();
     private static final ScheduledExecutorService scheduledThreadPool = newSingleThreadScheduledExecutor();
     private static Scene scene;
 
+    private SeContainer container = SeContainerInitializer.newInstance().initialize();
+
     @Override
     public void start(Stage stage) throws IOException {
+
+        container.select(this.getClass()).get().continueRunning(stage);
+
+
+    }
+
+    void continueRunning(Stage stage) throws IOException {
         scene = new Scene(loadFXML("main"));
+
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle(APP_MAIN_WINDOW_TITLE);
@@ -38,7 +50,7 @@ public class App extends Application {
 
         executorService.submit(new StartUpRoutinesRunnable(Configurations.getInstance(), executorService, scheduledThreadPool));
 
-   }
+    }
 
     @Override
     public void stop() throws Exception {
