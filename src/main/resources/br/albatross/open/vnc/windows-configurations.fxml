@@ -5,11 +5,12 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.controllers.WindowsConfigurationsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="946.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.albatross.open.vnc.controllers.WindowsConfigurationsController">
    <children>
       <Label alignment="CENTER" layoutX="348.0" layoutY="35.0" prefHeight="61.0" prefWidth="218.0" style="&#10;" text="Configurações" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
          <font>
@@ -79,11 +80,12 @@
          </font>
       </Button>
       <Hyperlink fx:id="githubLink" layoutX="397.0" layoutY="438.0" onAction="#githubLinkClicked" style="-fx-font-style: italic;" text="OpenVNC by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
-      <Label layoutX="709.0" layoutY="420.0" text="2.8 Alpha Build" textAlignment="CENTER">
+      <Label layoutX="709.0" layoutY="420.0" text="2.8.1 Alpha Build" textAlignment="CENTER">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>
       </Label>
-      <Button layoutX="691.0" layoutY="381.0" mnemonicParsing="false" onAction="#manualCheckForUpdates" text="Verificar Atualizações" />
+      <Button fx:id="manualCheckForUpdatesButton" layoutX="691.0" layoutY="381.0" mnemonicParsing="false" onAction="#manualCheckForUpdates" text="Verificar Atualizações" />
+      <ProgressBar fx:id="checkingForUpdatesProgressBar" layoutX="691.0" layoutY="361.0" prefHeight="20.0" prefWidth="159.0" />
    </children>
 </AnchorPane>

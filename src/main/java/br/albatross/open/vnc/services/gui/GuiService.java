@@ -1,5 +1,7 @@
 package br.albatross.open.vnc.services.gui;
 
+import static br.albatross.open.vnc.configurations.AvailableProperties.APP_ICON_RESOURCE_PATH;
+import static br.albatross.open.vnc.configurations.AvailableProperties.APP_MAIN_WINDOW_TITLE;
 import static br.albatross.open.vnc.configurations.AvailableProperties.DEV_GITHUB_PAGE_LINK;
 import static br.albatross.open.vnc.configurations.AvailableProperties.IS_LINUX_OS;
 import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
@@ -11,11 +13,17 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import br.albatross.open.vnc.App;
+import br.albatross.open.vnc.configurations.AvailableProperties;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
-public final class GuiService {
+public class GuiService {
 
     public void handleHostRadioButtonClick(TextField textField, ActionEvent event, String inputText) {
         textField.setText(inputText);
@@ -55,9 +63,49 @@ public final class GuiService {
     }
 
     public void goToConfigurationScreen() throws IOException {
-
         String configurationsController = (IS_WINDOWS_OS) ? "windows-configurations" : "configurations";
         App.setRoot(configurationsController);
+    }
+
+    public void changeScreen(
+            ActionEvent actionEvent,
+            String controllerFxmlName) {
+        changeScreen(actionEvent, controllerFxmlName, APP_MAIN_WINDOW_TITLE);
+    }
+
+    public void changeScreen(ActionEvent actionEvent,
+                             String controllerFxmlName,
+                             String windowTitle) {
+
+        openNewWindow(actionEvent, controllerFxmlName, windowTitle);
+        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+    }
+
+    public void openNewWindow(ActionEvent actionEvent,
+                             String controllerFxmlName,
+                             String windowTitle) {
+
+        createNewStage(
+                controllerFxmlName, 
+                windowTitle)
+        .show();
+
+    }
+
+    public Stage createNewStage(String controllerFxmlName, String windowTitle) {
+        
+        try {
+
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(controllerFxmlName + ".fxml"));
+            Scene scene = new Scene(fxmlLoader.load());;
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setTitle(windowTitle);
+            stage.getIcons().add(new Image(APP_ICON_RESOURCE_PATH));
+            return stage;
+            
+        } catch (IOException e) { throw new RuntimeException(e); }
 
     }
 

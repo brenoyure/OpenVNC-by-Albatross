@@ -59,6 +59,12 @@ public abstract class AbstractConfigurationController implements Initializable {
 
     protected final Configuration configuration;
 
+    @FXML
+    protected ProgressBar checkingForUpdatesProgressBar;
+
+    @FXML
+    protected Button manualCheckForUpdatesButton;
+
     protected AbstractConfigurationController(Configuration configuration, GuiService guiService) {
         this.configuration = configuration;
         this.guiService = guiService;
@@ -81,6 +87,8 @@ public abstract class AbstractConfigurationController implements Initializable {
         toggleHintsButton.setSelected(configuration.isShowingHints());
         toggleAutoUpdates.setSelected(configuration.isCheckForUpdatesEnabledAtStartUp());
 
+        checkingForUpdatesProgressBar.setVisible(false);
+        
     }
 
     @FXML
@@ -176,8 +184,14 @@ public abstract class AbstractConfigurationController implements Initializable {
     @FXML
     protected void manualCheckForUpdates(ActionEvent event) {
 
+
         ExecutorService executorService = App.executorService;
-        executorService.submit(new CheckForUpdatesRunnable(executorService, new ReleasesServiceGithubImplementation()));
+
+        executorService.submit(
+                new CheckForUpdatesRunnable(executorService,
+                        new ReleasesServiceGithubImplementation(),
+                        checkingForUpdatesProgressBar,
+                        manualCheckForUpdatesButton));
 
         usuarioTextField.requestFocus();
         usuarioTextField.forward();

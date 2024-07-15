@@ -14,6 +14,9 @@ import static br.albatross.open.vnc.configurations.AvailableProperties.GITHUB_RE
 import static javafx.scene.control.Alert.AlertType.ERROR;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
+
 /**
  * <p>Responsável pela verificação (Manual, através das Configurações) de atualizações.</p>
  *
@@ -28,10 +31,14 @@ public class CheckForUpdatesRunnable implements Runnable {
     private final ReleasesService releasesService;
     private static final Logger logger = Logger.getLogger(CheckForUpdatesRunnable.class.getName());
     private static final byte CHECK_FOR_UPDATES_TIMEOUT_SECONDS = 10;
+    private final ProgressBar checkForUpdatesProgressBar;
+    private final Button manualCheckForUpdatesButton;
 
-    public CheckForUpdatesRunnable(ExecutorService executorService, ReleasesService releasesService) {
+    public CheckForUpdatesRunnable(ExecutorService executorService, ReleasesService releasesService, ProgressBar checkForUpdatesProgressBar, Button manualCheckForUpdatesButton) {
         this.executorService = executorService;
         this.releasesService = releasesService;
+        this.checkForUpdatesProgressBar = checkForUpdatesProgressBar;
+        this.manualCheckForUpdatesButton = manualCheckForUpdatesButton;
     }
 
     @Override
@@ -39,7 +46,18 @@ public class CheckForUpdatesRunnable implements Runnable {
 
         Future<Release> releaseFuture = executorService.submit(() -> releasesService.getTheLatestStable().get());
 
+        /*
+         * Exibe a barra de progresso enquanto e desativa o botão de verificação de atualizações, enquanto
+         * o executorService aguarda o retorno do ReleaseService.
+         */
+        Platform.runLater(() -> {
+            manualCheckForUpdatesButton.setDisable(true);
+            checkForUpdatesProgressBar.setVisible(true);
+        });
+
         try {
+
+            Thread.sleep(5000);
 
             /*
              * Obtendo o retorno do Release, com um timeout, a partir do Future<Release> criado anteriormente.
@@ -93,6 +111,11 @@ public class CheckForUpdatesRunnable implements Runnable {
                 alert.show();
             });
 
+        } finally {
+            Platform.runLater(() -> {
+                manualCheckForUpdatesButton.setDisable(false);
+                checkForUpdatesProgressBar.setVisible(false);
+            });
         }
 
     }

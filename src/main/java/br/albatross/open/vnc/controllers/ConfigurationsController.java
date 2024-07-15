@@ -2,18 +2,11 @@ package br.albatross.open.vnc.controllers;
 
 import br.albatross.open.vnc.services.configurations.Configurations;
 import br.albatross.open.vnc.services.gui.GuiService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static br.albatross.open.vnc.services.Alerts.newInstance;
-import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 public class ConfigurationsController extends AbstractConfigurationController {
 
