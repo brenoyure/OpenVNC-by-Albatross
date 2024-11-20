@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class HintServiceImpl implements HintService<String> {
 
     private static final Map<Integer, String> hints = new HashMap<>();

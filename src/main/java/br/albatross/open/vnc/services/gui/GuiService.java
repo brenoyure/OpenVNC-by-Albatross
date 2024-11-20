@@ -13,17 +13,27 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import br.albatross.open.vnc.App;
-import br.albatross.open.vnc.configurations.AvailableProperties;
+import io.quarkiverse.fx.views.FxViewRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+//import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+@ApplicationScoped
 public class GuiService {
+
+    @Inject
+    Instance<FXMLLoader> fxmlLoader;    
+
+    @Inject
+    FxViewRepository fxViewRepository;
 
     public void handleHostRadioButtonClick(TextField textField, ActionEvent event, String inputText) {
         textField.setText(inputText);
@@ -62,9 +72,9 @@ public class GuiService {
 
     }
 
-    public void goToConfigurationScreen() throws IOException {
+    public void goToConfigurationScreen(ActionEvent actionEvent) throws IOException {
         String configurationsController = (IS_WINDOWS_OS) ? "windows-configurations" : "configurations";
-        App.setRoot(configurationsController);
+        changeScreen(actionEvent, configurationsController);
     }
 
     public void changeScreen(
@@ -78,7 +88,7 @@ public class GuiService {
                              String windowTitle) {
 
         openNewWindow(actionEvent, controllerFxmlName, windowTitle);
-        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+//        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
     public void openNewWindow(ActionEvent actionEvent,
@@ -93,18 +103,18 @@ public class GuiService {
     }
 
     public Stage createNewStage(String controllerFxmlName, String windowTitle) {
-        
         try {
-
-            Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(controllerFxmlName + ".fxml"));
-            Scene scene = new Scene(fxmlLoader.load());;
+            FXMLLoader fxmlLoader = this.fxmlLoader.get();
+            fxmlLoader.setLocation(App.class.getResource(controllerFxmlName + ".fxml"));
+            Stage stage = fxViewRepository.getPrimaryStage();
+            Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setTitle(windowTitle);
             stage.getIcons().add(new Image(APP_ICON_RESOURCE_PATH));
+
             return stage;
-            
+
         } catch (IOException e) { throw new RuntimeException(e); }
 
     }

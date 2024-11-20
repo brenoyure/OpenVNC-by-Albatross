@@ -57,6 +57,8 @@ public class CheckForUpdatesRunnable implements Runnable {
 
         try {
 
+            Thread.sleep(5000);            
+
             /*
              * Obtendo o retorno do Release, com um timeout, a partir do Future<Release> criado anteriormente.
              */

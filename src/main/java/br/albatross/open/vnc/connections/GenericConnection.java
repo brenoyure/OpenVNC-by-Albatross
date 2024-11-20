@@ -58,7 +58,7 @@ public abstract class GenericConnection implements Connection {
 	public void start() {
 		try {
 
-			getRuntime().exec(getConnectionString()).waitFor();
+			getRuntime().exec(getConnectionString().split(" ")).waitFor();
 
 		} catch (IOException e) {
 

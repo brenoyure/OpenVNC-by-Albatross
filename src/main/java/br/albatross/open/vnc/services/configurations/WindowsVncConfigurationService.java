@@ -8,16 +8,15 @@ import java.util.Base64;
 import java.util.Optional;
 
 import br.albatross.open.vnc.configurations.ApplicationProperties;
-import br.albatross.open.vnc.services.credentials.CredentialsService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
+@ApplicationScoped
+@WindowsSpecificSettings
 public class WindowsVncConfigurationService extends VncConfigurationService implements WindowsSpecificConfiguration {
 
-    private final ApplicationProperties applicationProperties;
-
-    public WindowsVncConfigurationService(ApplicationProperties applicationProperties, CredentialsService credentialsService) {
-        super(credentialsService, applicationProperties);
-        this.applicationProperties = applicationProperties;
-    }
+    @Inject
+    ApplicationProperties applicationProperties;
 
     @Override
     public Optional<String> getVncDirectory() {

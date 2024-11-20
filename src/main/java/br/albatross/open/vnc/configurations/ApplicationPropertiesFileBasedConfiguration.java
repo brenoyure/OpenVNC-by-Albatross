@@ -14,6 +14,10 @@ import java.io.OutputStream;
 import java.util.Optional;
 import java.util.Properties;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class ApplicationPropertiesFileBasedConfiguration implements ApplicationProperties {
 
     private Properties properties;    
@@ -22,10 +26,6 @@ public class ApplicationPropertiesFileBasedConfiguration implements ApplicationP
     private static final File PROPERTIES_FILE   = new File(PROPERTIES_FOLDER, "application.properties");
 
     private static final String[] WINDOWS_ADD_HIDE_ATTRIB_CMD_ARRAY = { "attrib", "+h", PROPERTIES_FOLDER.getAbsolutePath() };
-
-    public ApplicationPropertiesFileBasedConfiguration() {
-    	loadProperties();
-    }
 
     @Override
     public Optional<String> getProperty(String propertyKey) {
@@ -45,7 +45,20 @@ public class ApplicationPropertiesFileBasedConfiguration implements ApplicationP
         } catch (IOException ex) { throw new RuntimeException(ex); }
     }
 
-    private void loadProperties() {
+    @Override
+    public void clearProperty(String propertyKey) {
+
+        try (OutputStream fos = new BufferedOutputStream(new FileOutputStream(PROPERTIES_FILE))) {
+
+            properties.remove(propertyKey);
+            properties.store(fos, null);
+
+        } catch (IOException ex) { throw new RuntimeException(ex); }
+
+    }
+
+    @PostConstruct
+    void loadProperties() {
 
         try {
 
@@ -73,18 +86,6 @@ public class ApplicationPropertiesFileBasedConfiguration implements ApplicationP
 
         } catch (IOException e) { throw new RuntimeException(e); }
 
-    }
-
-    @Override
-    public void clearProperty(String propertyKey) {
-
-        try (OutputStream fos = new BufferedOutputStream(new FileOutputStream(PROPERTIES_FILE))) {
-
-            properties.remove(propertyKey);
-            properties.store(fos, null);
-
-        } catch (IOException ex) { throw new RuntimeException(ex); }
-
-    }
+    }    
 
 }

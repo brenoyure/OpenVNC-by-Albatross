@@ -1,14 +1,20 @@
 package br.albatross.open.vnc.controllers;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.concurrent.ExecutorService;
+
 import br.albatross.open.vnc.builders.ConnectionBuilder;
 import br.albatross.open.vnc.configurations.AvailableHosts;
 import br.albatross.open.vnc.connections.Connection;
 import br.albatross.open.vnc.runnables.OpenVNCConnectionRunnable;
+import br.albatross.open.vnc.runnables.OpenVNCThreadPool;
 import br.albatross.open.vnc.runnables.ShowHintRunnable;
-import br.albatross.open.vnc.services.configurations.*;
+import br.albatross.open.vnc.services.configurations.Configuration;
 import br.albatross.open.vnc.services.gui.GuiService;
 import br.albatross.open.vnc.services.hints.HintService;
-import br.albatross.open.vnc.services.hints.HintServiceImpl;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,16 +22,8 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import static br.albatross.open.vnc.App.executorService;
-import static br.albatross.open.vnc.builders.ConnectionBuilders.*;
-import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
-import static br.albatross.open.vnc.services.configurations.Configurations.getInstance;
-import static br.albatross.open.vnc.services.configurations.Configurations.getWindowsSpecificInstance;
-
-public final class MainController {
+@Dependent
+public class MainController {
 
     /**
      * Represents the text field in the GUI, where users type the IP or
@@ -49,25 +47,21 @@ public final class MainController {
     @FXML
     private Hyperlink changePasswordLink;
 
-    private ConnectionBuilder connectionBuilder;
+    @Inject
+    @OpenVNCThreadPool
+    ExecutorService executorService;
 
-    private final Configuration configuration;
+    @Inject
+    ConnectionBuilder connectionBuilder;
 
-    private final GuiService service;
+    @Inject
+    HintService<String> hintService;
 
-    private final HintService<String> hintService;
+    @Inject
+    GuiService service;
 
-    public MainController() {
-
-        service = new GuiService();
-
-        this.configuration = IS_WINDOWS_OS ?
-                getWindowsSpecificInstance() :
-                getInstance();
-
-        hintService = new HintServiceImpl();
-
-    }
+    @Inject
+    Configuration configuration;    
 
     /**
      * Triggers the Builder and Starter components to build and start a VNC
@@ -81,13 +75,8 @@ public final class MainController {
     @FXML
     public void connectBtnClicked(ActionEvent btnClicked) throws Exception {
 
-    	if (connectionBuilder == null) {
-
-            connectionBuilder = newInstance();
-
-    	}
-
-        Connection connection = connectionBuilder.createConnection(host.getText());
+        Connection connection = 
+                connectionBuilder.createConnection(host.getText());
 
         if (configuration.isShowingHints()) {
             executorService.submit(new ShowHintRunnable(hintService, executorService));
@@ -103,7 +92,7 @@ public final class MainController {
     @FXML
     private void changePasswordLinkClicked(ActionEvent event) throws IOException {
 
-        service.goToConfigurationScreen();
+        service.goToConfigurationScreen(event);
 
     }
 
@@ -148,7 +137,9 @@ public final class MainController {
 
     @FXML
     private void andarTerroRadioBtnClicked(ActionEvent event) {
-        handleHostRadioButtonClick(event, AvailableHosts.HOST_ANDAR_TERREO_TEMPLATE);
+        host.setText(AvailableHosts.HOST_ANDAR_TERREO_TEMPLATE);
+        host.requestFocus();
+        host.forward();
     }
 
     @FXML

@@ -4,11 +4,13 @@ import static br.albatross.open.vnc.configurations.AvailableProperties.CONNECTIO
 import static br.albatross.open.vnc.configurations.AvailableProperties.CONNECTION_USER;
 
 import java.util.Base64;
-
-import br.albatross.open.vnc.configurations.ApplicationProperties;
 import java.util.Optional;
 
-public final class ApplicationPropertiesFileBasedCredentialsService implements CredentialsService {
+import br.albatross.open.vnc.configurations.ApplicationProperties;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class ApplicationPropertiesFileBasedCredentialsService implements CredentialsService {
 
     private final ApplicationProperties properties;
 

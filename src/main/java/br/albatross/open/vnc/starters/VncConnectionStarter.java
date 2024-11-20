@@ -21,7 +21,7 @@ public final class VncConnectionStarter implements ConnectionStarter {
 
         try {
 
-            getRuntime().exec(connection.getConnectionString()).waitFor();           
+            getRuntime().exec(connection.getConnectionString().split(" ")).waitFor();           
 
         } catch (IOException e) {
 

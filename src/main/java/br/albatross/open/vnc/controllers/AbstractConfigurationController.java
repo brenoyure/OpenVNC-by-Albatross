@@ -1,15 +1,8 @@
 package br.albatross.open.vnc.controllers;
 
-import br.albatross.open.vnc.App;
-import br.albatross.open.vnc.releases.runnables.CheckForUpdatesRunnable;
-import br.albatross.open.vnc.releases.services.ReleasesServiceGithubImplementation;
-import br.albatross.open.vnc.services.configurations.Configuration;
-import br.albatross.open.vnc.services.gui.GuiService;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
+import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
+import static br.albatross.open.vnc.services.Alerts.newInstance;
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -17,10 +10,29 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 
-import static br.albatross.open.vnc.configurations.AvailableProperties.IS_WINDOWS_OS;
-import static br.albatross.open.vnc.services.Alerts.newInstance;
-import static javafx.scene.control.Alert.AlertType.INFORMATION;
+import br.albatross.open.vnc.releases.runnables.CheckForUpdatesRunnable;
+import br.albatross.open.vnc.releases.services.ReleasesServiceGithubImplementation;
+import br.albatross.open.vnc.runnables.OpenVNCThreadPool;
+import br.albatross.open.vnc.services.configurations.Configuration;
+import br.albatross.open.vnc.services.gui.GuiService;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
+@Dependent
 public abstract class AbstractConfigurationController implements Initializable {
 
     @FXML
@@ -46,8 +58,6 @@ public abstract class AbstractConfigurationController implements Initializable {
     @FXML
     protected Hyperlink githubLink;
 
-    protected final GuiService guiService;
-
     @FXML
     protected Label exibirDicasLabel;
 
@@ -57,18 +67,24 @@ public abstract class AbstractConfigurationController implements Initializable {
     @FXML
     protected CheckBox toggleAutoUpdates;
 
-    protected final Configuration configuration;
-
     @FXML
     protected ProgressBar checkingForUpdatesProgressBar;
 
     @FXML
     protected Button manualCheckForUpdatesButton;
 
-    protected AbstractConfigurationController(Configuration configuration, GuiService guiService) {
-        this.configuration = configuration;
-        this.guiService = guiService;
-    }
+    @Inject
+    @OpenVNCThreadPool
+    ExecutorService executorService;
+
+    @Inject
+    FXMLLoader fxmlLoader;
+
+    @Inject
+    Configuration configuration;    
+
+    @Inject
+    GuiService guiService;    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -93,8 +109,7 @@ public abstract class AbstractConfigurationController implements Initializable {
 
     @FXML
     protected void backToMainButton(ActionEvent event) throws IOException {
-        App.setRoot("main");
-
+        guiService.changeScreen(event, "main");
     }
 
     @FXML
@@ -183,9 +198,6 @@ public abstract class AbstractConfigurationController implements Initializable {
 
     @FXML
     protected void manualCheckForUpdates(ActionEvent event) {
-
-
-        ExecutorService executorService = App.executorService;
 
         executorService.submit(
                 new CheckForUpdatesRunnable(executorService,

@@ -1,31 +1,28 @@
 package br.albatross.open.vnc.controllers;
 
 import static br.albatross.open.vnc.services.Alerts.newInstance;
-import static br.albatross.open.vnc.services.configurations.Configurations.getWindowsSpecificInstance;
-import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
-import br.albatross.open.vnc.App;
-import br.albatross.open.vnc.releases.runnables.CheckForUpdatesRunnable;
-import br.albatross.open.vnc.releases.services.ReleasesServiceGithubImplementation;
-import br.albatross.open.vnc.services.configurations.Configurations;
+import br.albatross.open.vnc.services.configurations.WindowsSpecificSettings;
 import br.albatross.open.vnc.services.configurations.WindowsSpecificConfiguration;
 import br.albatross.open.vnc.services.gui.GuiService;
-import java.util.concurrent.ExecutorService;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 
+@Dependent
 public class WindowsConfigurationsController extends AbstractConfigurationController {
 
     @FXML
@@ -37,13 +34,13 @@ public class WindowsConfigurationsController extends AbstractConfigurationContro
     @FXML
     private Button autoDetectUltraVNCInstallDirButton;    
 
-    private final WindowsSpecificConfiguration configuration;
+    @Inject
+    @WindowsSpecificSettings
+    WindowsSpecificConfiguration configuration;
 
-    public WindowsConfigurationsController() {
-        super(Configurations.getInstance(), new GuiService());
-        configuration = getWindowsSpecificInstance();
-    }
-
+    @Inject
+    GuiService guiService;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);

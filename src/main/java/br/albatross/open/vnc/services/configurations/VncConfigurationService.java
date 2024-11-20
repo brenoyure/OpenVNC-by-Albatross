@@ -7,16 +7,17 @@ import java.util.Optional;
 
 import br.albatross.open.vnc.configurations.ApplicationProperties;
 import br.albatross.open.vnc.services.credentials.CredentialsService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
+@ApplicationScoped
 public class VncConfigurationService implements Configuration {
 
-    private final CredentialsService credentialsService;
-    private final ApplicationProperties applicationProperties;
+    @Inject
+    CredentialsService credentialsService;
 
-    public VncConfigurationService(CredentialsService credentialsService, ApplicationProperties applicationProperties) {
-    	this.credentialsService = credentialsService;
-        this.applicationProperties = applicationProperties;
-    }
+    @Inject
+    ApplicationProperties applicationProperties;
 
     @Override
     public void saveUser(String username) {

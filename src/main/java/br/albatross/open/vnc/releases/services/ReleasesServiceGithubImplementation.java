@@ -1,10 +1,5 @@
 package br.albatross.open.vnc.releases.services;
 
-import br.albatross.open.vnc.releases.model.Release;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-
 import java.io.StringReader;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -13,6 +8,11 @@ import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+
+import br.albatross.open.vnc.releases.model.Release;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 
 /**
  * Implementação do Serviço de Releases baseado na API do Github
@@ -47,9 +47,7 @@ public class ReleasesServiceGithubImplementation implements ReleasesService {
 
             }
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        } catch (Exception e) { throw new RuntimeException(e); }
 
     }
 
