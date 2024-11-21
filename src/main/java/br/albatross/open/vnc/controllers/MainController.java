@@ -137,9 +137,7 @@ public class MainController {
 
     @FXML
     private void andarTerroRadioBtnClicked(ActionEvent event) {
-        host.setText(AvailableHosts.HOST_ANDAR_TERREO_TEMPLATE);
-        host.requestFocus();
-        host.forward();
+        handleHostRadioButtonClick(event, AvailableHosts.HOST_ANDAR_TERREO_TEMPLATE);
     }
 
     @FXML

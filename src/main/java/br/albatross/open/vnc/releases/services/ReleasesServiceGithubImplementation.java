@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import br.albatross.open.vnc.releases.model.Release;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -19,6 +20,7 @@ import jakarta.json.JsonReader;
  *
  * @author Breno.Brito
  */
+@RequestScoped
 public class ReleasesServiceGithubImplementation implements ReleasesService {
 
     @Override
