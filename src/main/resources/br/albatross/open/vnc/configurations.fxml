@@ -57,7 +57,7 @@
          </font>
       </Button>
       <Hyperlink fx:id="githubLink" layoutX="397.0" layoutY="434.0" onAction="#githubLinkClicked" style="-fx-font-style: italic;" text="OpenVNC by Albatross" textAlignment="CENTER" textFill="#9f9f9f" />
-      <Label layoutX="709.0" layoutY="420.0" text="2.8.1 Alpha Build" textAlignment="CENTER">
+      <Label layoutX="709.0" layoutY="420.0" text="2.9.0 Stable Build" textAlignment="CENTER">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>

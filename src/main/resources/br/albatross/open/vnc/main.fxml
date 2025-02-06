@@ -114,7 +114,7 @@
                         <Font size="13.0" />
                      </font>
                   </RadioButton>
-                  <Label layoutX="699.0" layoutY="410.0" text="2.8.1 Alpha Build" textAlignment="CENTER">
+                  <Label layoutX="699.0" layoutY="410.0" text="2.9.0 Stable Build" textAlignment="CENTER">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>

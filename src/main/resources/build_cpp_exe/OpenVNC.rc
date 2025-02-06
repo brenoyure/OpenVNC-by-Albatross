@@ -1,0 +1,12 @@
+id ICON "acesso-remoto.ico"
+VS_VERSION_INFO VERSIONINFO
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+	BEGIN
+	    VALUE "CompanyName",   "github.com/brenoyure"
+	    VALUE "ProductName",   "OpenVNC by Albatross"
+	END
+    END
+END

@@ -45,3 +45,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### CPP ###
+*.exe
+OpenVNC.res
